@@ -1,6 +1,4 @@
 
-'use strict';
-
 const {
     line2Camel,
     camel2Line,

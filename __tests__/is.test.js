@@ -1,6 +1,4 @@
 
-'use strict'
-
 const {
     isNull,
     isArray,
