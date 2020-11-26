@@ -4,14 +4,14 @@
   "description": "easy-fns typescript version",
   "main": "dist/index.js",
   "scripts": {
-    "tsc": "tsc -w",
+    "dev": "tsc -w",
     "lint": "eslint . --ext .ts -f table",
     "fix": "eslint . --ext .ts --fix",
     "test": "jest",
     "cover": "jest --coverage",
-    "prepackage": "tsc -m es2020",
-    "package": "npm version patch && npm publish",
-    "postpackage": "tsc -m"
+    "preprod": "tsc -m es2020",
+    "prod": "npm version patch && npm publish",
+    "postprod": "tsc"
   },
   "author": "zhaocl1997",
   "license": "ISC",
