@@ -20,7 +20,23 @@ module.exports = {
   ],
   rules: {
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["error"]
+    "max-len": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-plusplus": "off",
+    "no-use-before-define": "off",
+    "no-unused-expressions": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
   },
   settings: {
     "import/resolver": {
