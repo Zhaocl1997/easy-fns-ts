@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.clearUnexpectedChars = exports.clearIllegalChars = exports.checkStrStrong = exports.trimSpaceAside = exports.camel2Line = exports.line2Camel = void 0;
 /* eslint no-eval: 0 */
 /* eslint no-plusplus: 0 */
 /**
@@ -9,29 +6,26 @@ exports.clearUnexpectedChars = exports.clearIllegalChars = exports.checkStrStron
  * @param  {String} type 转换格式，默认-
  * @return {String}
  */
-const line2Camel = (str, type = '-') => str.replace(eval(`/\\${type}(\\w)/g`), (all, letter) => letter.toUpperCase());
-exports.line2Camel = line2Camel;
+export const line2Camel = (str, type = '-') => str.replace(eval(`/\\${type}(\\w)/g`), (all, letter) => letter.toUpperCase());
 /**
  * @description          驼峰转换下划线
  * @param  {String} str  目标字符串
  * @param  {String} type 转换格式，默认-
  * @return {String}
  */
-const camel2Line = (str, type = '-') => str.replace(/([A-Z])/g, `${type}$1`).toLowerCase();
-exports.camel2Line = camel2Line;
+export const camel2Line = (str, type = '-') => str.replace(/([A-Z])/g, `${type}$1`).toLowerCase();
 /**
  * @description         去除字符串两边的空格
  * @param  {String} str 目标字符串
  * @return {String}
  */
-const trimSpaceAside = (str) => (str || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
-exports.trimSpaceAside = trimSpaceAside;
+export const trimSpaceAside = (str) => (str || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
 /**
  * @description         检查字符串强度，适用于密码检查
  * @param  {String} str 目标字符串
  * @return {Number}     1-4其中一个，4为最强
  */
-const checkStrStrong = (str) => {
+export const checkStrStrong = (str) => {
     let modes = 0;
     if (str.length < 1)
         return modes;
@@ -56,7 +50,6 @@ const checkStrStrong = (str) => {
     }
     return modes;
 };
-exports.checkStrStrong = checkStrStrong;
 /**
  * @author Zhaocl1997   (https://github.com/Zhaocl1997)
  * @description         清除想要强制清除的字符串，一般指一些敏感的特殊字符
@@ -65,7 +58,7 @@ exports.checkStrStrong = checkStrStrong;
  * @param  {Array} arr  不想要的字符串数组
  * @return {String}     清除完的字符串
  */
-const clearIllegalChars = (str, arr) => {
+export const clearIllegalChars = (str, arr) => {
     let newStr = str;
     for (let i = 0; i < arr.length; i++) {
         if (str.indexOf(arr[i]) !== -1) {
@@ -75,7 +68,6 @@ const clearIllegalChars = (str, arr) => {
     }
     return newStr;
 };
-exports.clearIllegalChars = clearIllegalChars;
 var AllowedInputTypeEnum;
 (function (AllowedInputTypeEnum) {
     AllowedInputTypeEnum["NUMBER"] = "number";
@@ -90,7 +82,7 @@ var AllowedInputTypeEnum;
  * @param  {String} type ["number", "letter", "chinese"] 目前只支持这三个的其中一种
  * @return {String}      清除完的字符串
  */
-const clearUnexpectedChars = (str, type = AllowedInputTypeEnum.NUMBER) => {
+export const clearUnexpectedChars = (str, type = AllowedInputTypeEnum.NUMBER) => {
     const reverseRegex = (v) => `/${v}/g`;
     const regexTemplate = {
         number: '[^0-9-.]',
@@ -99,4 +91,3 @@ const clearUnexpectedChars = (str, type = AllowedInputTypeEnum.NUMBER) => {
     };
     return str.replace(eval(reverseRegex(regexTemplate[type])), '');
 };
-exports.clearUnexpectedChars = clearUnexpectedChars;
