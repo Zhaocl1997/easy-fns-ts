@@ -5,7 +5,7 @@ __tests__
 
 __coverage__
 
-eslintignore
+.eslintignore
 
 .eslintrc.js
 
