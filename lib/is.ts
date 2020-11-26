@@ -1,4 +1,4 @@
-export const isType = (type: string) => (target: any) => `[object ${type}]` === Object.prototype.toString.call(target);
+export const isType = (type: string) => (target: string | Window):boolean => `[object ${type}]` === Object.prototype.toString.call(target);
 
 export const isNull = isType('Null');
 export const isArray = isType('Array');

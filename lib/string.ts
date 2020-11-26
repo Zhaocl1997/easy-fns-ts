@@ -1,5 +1,3 @@
-/* eslint no-plusplus: 0 */
-
 function selfEval(fn: string) {
   const Fn = Function;
   return new Fn(`return ${fn}`)();
