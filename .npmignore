@@ -1,0 +1,14 @@
+
+lib/
+
+__tests__
+
+__coverage__
+
+eslintignore
+
+.eslintrc.js
+
+tsconfig.json
+
+jest.config.js
