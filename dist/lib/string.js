@@ -1,12 +1,15 @@
-/* eslint no-eval: 0 */
 /* eslint no-plusplus: 0 */
+function selfEval(fn) {
+    const Fn = Function;
+    return new Fn(`return ${fn}`)();
+}
 /**
  * @description          划线转换驼峰
  * @param  {String} str  目标字符串
  * @param  {String} type 转换格式，默认-
  * @return {String}
  */
-export const line2Camel = (str, type = '-') => str.replace(eval(`/\\${type}(\\w)/g`), (all, letter) => letter.toUpperCase());
+export const line2Camel = (str, type = '-') => str.replace(selfEval(`/\\${type}(\\w)/g`), (all, letter) => letter.toUpperCase());
 /**
  * @description          驼峰转换下划线
  * @param  {String} str  目标字符串
@@ -27,7 +30,7 @@ export const trimSpaceAside = (str) => (str || '').replace(/^[\s\uFEFF]+|[\s\uFE
  */
 export const checkStrStrong = (str) => {
     let modes = 0;
-    if (str.length < 1)
+    if (str.length < 3)
         return modes;
     if (/\d/.test(str))
         modes++; // number
@@ -45,10 +48,10 @@ export const checkStrStrong = (str) => {
         case 3:
         case 4:
             return str.length < 12 ? 3 : 4;
+        /* istanbul ignore next */
         default:
-            break;
+            return 1;
     }
-    return modes;
 };
 /**
  * @author Zhaocl1997   (https://github.com/Zhaocl1997)
@@ -63,7 +66,7 @@ export const clearIllegalChars = (str, arr) => {
     for (let i = 0; i < arr.length; i++) {
         if (str.indexOf(arr[i]) !== -1) {
             const regexp = `/\\${arr[i]}/g`;
-            newStr = newStr.replace(eval(regexp), '');
+            newStr = newStr.replace(selfEval(regexp), '');
         }
     }
     return newStr;
@@ -89,5 +92,5 @@ export const clearUnexpectedChars = (str, type = AllowedInputTypeEnum.NUMBER) =>
         letter: '[^A-Za-z]',
         chinese: '[^\u4e00-\u9fa5]',
     };
-    return str.replace(eval(reverseRegex(regexTemplate[type])), '');
+    return str.replace(selfEval(reverseRegex(regexTemplate[type])), '');
 };

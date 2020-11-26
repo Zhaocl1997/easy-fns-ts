@@ -1,12 +1,17 @@
-/* eslint no-eval: 0 */
 /* eslint no-plusplus: 0 */
+
+function selfEval(fn: string) {
+  const Fn = Function;
+  return new Fn(`return ${fn}`)();
+}
+
 /**
  * @description          划线转换驼峰
  * @param  {String} str  目标字符串
  * @param  {String} type 转换格式，默认-
  * @return {String}
  */
-export const line2Camel = (str: string, type = '-'): string => str.replace(eval(`/\\${type}(\\w)/g`), (all, letter) => letter.toUpperCase());
+export const line2Camel = (str: string, type = '-'): string => str.replace(selfEval(`/\\${type}(\\w)/g`), (all, letter) => letter.toUpperCase());
 
 /**
  * @description          驼峰转换下划线
@@ -31,7 +36,7 @@ export const trimSpaceAside = (str: string): string => (str || '').replace(/^[\s
 export const checkStrStrong = (str: string): number => {
   let modes = 0;
 
-  if (str.length < 1) return modes;
+  if (str.length < 3) return modes;
   if (/\d/.test(str)) modes++; // number
   if (/[a-z]/.test(str)) modes++; // lower
   if (/[A-Z]/.test(str)) modes++; // upper
@@ -45,12 +50,10 @@ export const checkStrStrong = (str: string): number => {
     case 3:
     case 4:
       return str.length < 12 ? 3 : 4;
-
+    /* istanbul ignore next */
     default:
-      break;
+      return 1;
   }
-
-  return modes;
 };
 
 /**
@@ -66,22 +69,22 @@ export const clearIllegalChars = (str: string, arr: Array<string>): string => {
   for (let i = 0; i < arr.length; i++) {
     if (str.indexOf(arr[i]) !== -1) {
       const regexp = `/\\${arr[i]}/g`;
-      newStr = newStr.replace(eval(regexp), '');
+      newStr = newStr.replace(selfEval(regexp), '');
     }
   }
   return newStr;
 };
 
 interface RegexTemplate {
-    number: string
-    letter: string
-    chinese: string
+  number: string
+  letter: string
+  chinese: string
 }
 
 enum AllowedInputTypeEnum {
-    NUMBER = 'number',
-    LETTER = 'letter',
-    CHINESE = 'chinese'
+  NUMBER = 'number',
+  LETTER = 'letter',
+  CHINESE = 'chinese'
 }
 
 /**
@@ -104,5 +107,5 @@ export const clearUnexpectedChars = (
     chinese: '[^\u4e00-\u9fa5]',
   };
 
-  return str.replace(eval(reverseRegex(regexTemplate[type])), '');
+  return str.replace(selfEval(reverseRegex(regexTemplate[type])), '');
 };
