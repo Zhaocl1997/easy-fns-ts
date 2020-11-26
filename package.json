@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsc -w",
     "lint": "eslint . --ext .ts -f table",
-    "fix": "eslint . --ext .ts --fix",
+    "fix": "eslint . --ext .ts -f table --fix",
     "test": "jest",
     "cover": "jest --coverage",
     "preprod": "tsc -m es2020",
