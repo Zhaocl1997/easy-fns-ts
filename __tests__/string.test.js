@@ -34,10 +34,12 @@ describe('string utils', () => {
     })
 
     test('check string strength', () => {
+        expect(checkStrStrong('1')).toBe(0)
         expect(checkStrStrong('123')).toBe(1)
+        expect(checkStrStrong(123)).toBe(1)
         expect(checkStrStrong('123abc')).toBe(2)
         expect(checkStrStrong('123abc!@#')).toBe(3)
-        expect(checkStrStrong('1234abcd!@#$%')).toBe(4)
+        expect(checkStrStrong('1234abCD!@#$%')).toBe(4)
     })
 
     test('clear illegal characters', () => {
