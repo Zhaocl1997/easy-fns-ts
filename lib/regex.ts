@@ -19,8 +19,6 @@ export const regex = {
 
   external: /^(https?:|mailto:|tel:)/,
 
-  rgb: /rgb\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\)/,
-
   browser: {
     IE: /(?:msie|trident.*rv).([\d.]+)/,
     Edge: /edge.([\d.]+)/,
@@ -28,6 +26,11 @@ export const regex = {
     Firefox: /firefox.([\d.]+)/,
     Opera: /opera.([\d.]+)/,
     Safari: /(?:safari|version).([\d.]+)/,
+  },
+
+  color: {
+    hex: /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/,
+    rgb: /(rgb\((((25[0-5]|2[0-4]\d|1\d{1,2}|\d\d?)\s*?,\s*?){2}(25[0-5]|2[0-4]\d|1\d{1,2}|\d\d?)\s*?)?\))|(rgba\(((25[0-5]|2[0-4]\d|1\d{1,2}|\d\d?)\s*?,\s*?){2}(25[0-5]|2[0-4]\d|1\d{1,2}|\d\d?)\s*?,\s*(0?\.\d*|0(\.\d*)?|1)?\))/,
   },
 
   uuid: /\w{8}(-\w{4}){3}-\w{12}/,
@@ -43,6 +46,7 @@ export const regexTest = {
   isNumber: (val: string): boolean => regex.number.test(val),
   isLetter: (val: string): boolean => regex.letter.test(val),
   isExternal: (val: string): boolean => regex.external.test(val),
-  isRGB: (val: string): boolean => regex.rgb.test(val),
+  isRGB: (val: string): boolean => regex.color.rgb.test(val),
+  isHEX: (val: string): boolean => regex.color.hex.test(val),
   isUUID: (val: string): boolean => regex.uuid.test(val),
 };

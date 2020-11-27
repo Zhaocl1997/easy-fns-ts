@@ -20,7 +20,7 @@ export const THEME_TYPE = {
   INFO: 'info',
 };
 
-export const PHONE_PREFIX = [
+export const PHONE_PREFIX: Array<string> = [
   '131',
   '133',
   '138',
@@ -31,7 +31,7 @@ export const PHONE_PREFIX = [
   '186',
 ];
 
-export const EMAIL_SUFFIX = [
+export const EMAIL_SUFFIX: Array<string> = [
   '@chinaunicom.com',
   '@qq.com',
   '@163.com',

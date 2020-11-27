@@ -57,7 +57,7 @@ const curry = <T extends (...args: any) => any>(fn: T): Curried<T> => {
  * @description    柯里化concat
  * @return {Array}
  */
-export const curryConcat = (...args: any[]):any => curry(() => args.reduce((a: any, b: any) => a.concat(b)));
+export const curryConcat = (...args: any[]): any => curry(() => args.reduce((a: any, b: any) => a.concat(b)));
 
 /**
  * @description                对象数组去重
@@ -65,18 +65,10 @@ export const curryConcat = (...args: any[]):any => curry(() => args.reduce((a: a
  * @param {String} uniqueField 去重根据字段key值，默认id
  * @return {Array}
  */
-export const objectArrayUnique = (
-  arr: Array<{ [index: string]: any }>,
-  uniqueField = 'id',
-): any => {
-  const flag: { [index: string]: any } = {};
-
-  const ret = arr.reduce((prev, cur) => {
-    flag[cur[uniqueField]]
-      ? ''
-      : (flag[cur[uniqueField]] = true && prev.push(cur));
-    return prev;
-  }, []);
-
-  return ret;
-};
+export function objectArrayUnique<T = any>(arr: T[], key = 'id'): T[] {
+  const map = new Map();
+  return arr.filter((item) => {
+    const selfItem = item as any;
+    return !map.has(selfItem[key]) && map.set(selfItem[key], 1);
+  });
+}
