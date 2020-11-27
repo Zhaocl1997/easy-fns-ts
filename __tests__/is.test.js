@@ -17,7 +17,7 @@ const {
 
 const { regex } = require('../dist')
 
-describe('type utils', () => {
+describe('is utils', () => {
 
     test('check value is null', () => {
         expect(isNull(null)).toBeTruthy()
