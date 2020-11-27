@@ -1,6 +1,6 @@
 export * from './lib/array';
 export * from './lib/color';
-export * from './lib/constant';
+export * from './lib/constant/index';
 export * from './lib/generator';
 export * from './lib/is';
 export * from './lib/math';

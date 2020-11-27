@@ -6,7 +6,7 @@ import {
   MAC_ADDRESS_TEMPLATE,
   MAC_ADDRESS_POOL,
   NUMBER_STRING,
-} from './constant';
+} from './constant/index';
 import { getRandomElement, getRandomElements } from './array';
 
 /**
