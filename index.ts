@@ -7,5 +7,6 @@ export * from './lib/math';
 export * from './lib/regex';
 export * from './lib/string';
 export * from './lib/time';
+export * from './lib/tree';
 export * from './lib/url';
 export * from './lib/utils';
