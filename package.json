@@ -11,7 +11,7 @@
     "cover": "jest --coverage",
     "preprod": "tsc -m es2020",
     "prod": "npm version patch && npm publish",
-    "postprod": "tsc"
+    "postprod": "git push && tsc"
   },
   "author": "zhaocl1997",
   "license": "ISC",
