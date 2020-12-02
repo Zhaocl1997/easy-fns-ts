@@ -9,9 +9,11 @@
     "fix": "eslint . --ext .ts -f table --fix",
     "test": "jest",
     "cover": "jest --coverage",
+    "setNPM": "npm config set registry https://registry.npmjs.org/",
+    "setTB": "npm config set registry https://registry.npm.taobao.org",
     "preprod": "tsc -m es2020",
-    "prod": "npm version patch && npm publish",
-    "postprod": "git push && tsc"
+    "prod": "npm run setNPM && npm version patch && npm publish",
+    "postprod": "git push && tsc && npm run setTB"
   },
   "author": "zhaocl1997",
   "license": "ISC",
