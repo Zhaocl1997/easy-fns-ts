@@ -1,6 +1,6 @@
 {
   "name": "easy-fns-ts",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "easy-fns typescript version",
   "main": "dist/index.js",
   "scripts": {
