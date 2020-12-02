@@ -8,6 +8,7 @@ const {
 
     percentToRGB,
     countAge,
+    filterObj,
     regexTest
 } = require('../dist')
 
@@ -79,7 +80,7 @@ describe('check value is valid', () => {
 })
 
 
-describe('object operation like clone, merge, freeze', () => {
+describe('object operation', () => {
 
     test('deep clone target(easy way)', () => {
         const objTarget = { name: 'jack', age: 23, marriage: false, hobbies: ['jogging'], family: { father: { name: 'ken', age: 45 } } }
@@ -96,6 +97,12 @@ describe('object operation like clone, merge, freeze', () => {
             marriage: false,
             hobbies: ['jogging', 'writing']
         })
+    })
+
+    test('object filter by field', () => {
+        const objTarget = { name: 'jack', age: 23, marriage: false, hobbies: ['jogging'], family: { father: { name: 'ken', age: 45 } } }
+        expect(filterObj(objTarget, ['name'])).toEqual({ name: 'jack' })        
+        expect(filterObj(objTarget, 'm')).toEqual({ name: 'jack', marriage: false, family: { father: { name: 'ken', age: 45 } } })
     })
 
 })

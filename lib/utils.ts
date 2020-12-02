@@ -242,3 +242,24 @@ export const countAge = (birthStr: string): number => {
   return wrapper
 }
  */
+
+/**
+ * @description                 对象字段过滤，支持模糊过滤字段
+ * @param  {Object}         obj
+ * @param  {Array | String} arr 字符串字段数组，或者是字符串
+ * @return {Object}
+ */
+export const filterObj = (obj: any, keys: Array<string> | string): any => {
+  const result: any = {};
+  if (Array.isArray(keys)) {
+    Object.keys(obj).filter((key) => keys.includes(key)).forEach((key) => {
+      result[key] = obj[key];
+    });
+  } else {
+    Object.keys(obj).filter((key) => key.includes(keys)).forEach((key) => {
+      result[key] = obj[key];
+    });
+  }
+
+  return result;
+};
