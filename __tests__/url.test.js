@@ -1,6 +1,6 @@
 
 
-const { addTimeStamp, addParams, parseParams } = require('../dist')
+const { addTimeStamp, addParams, parseParams } = require('../dist/lib')
 
 describe('url utils', () => {
 

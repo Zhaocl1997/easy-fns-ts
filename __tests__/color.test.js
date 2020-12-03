@@ -1,5 +1,5 @@
 
-const { hexToRgba, rgbToHex } = require('../dist')
+const { hexToRgba, rgbToHex } = require('../dist/lib')
 
 describe('color utils', () => {
 

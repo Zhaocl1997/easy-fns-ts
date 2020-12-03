@@ -1,5 +1,5 @@
 
-const { arrToTree, treeToArr, findNode, deepClone } = require('../dist')
+const { arrToTree, treeToArr, findNode, deepClone } = require('../dist/lib')
 
 describe('tree utils', () => {
 

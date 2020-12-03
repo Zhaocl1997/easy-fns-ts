@@ -1,5 +1,5 @@
 
-const { getRandomInt, Fibonacci } = require('../dist')
+const { getRandomInt, Fibonacci } = require('../dist/lib')
 
 describe('math utils', () => {
 

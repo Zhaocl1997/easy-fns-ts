@@ -1,5 +1,5 @@
 
-const { getRandomElement, getRandomElements, curryConcat, objectArrayUnique } = require('../dist')
+const { getRandomElement, getRandomElements, curryConcat, objectArrayUnique } = require('../dist/lib')
 
 describe('array utils', () => {
 

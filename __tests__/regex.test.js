@@ -1,5 +1,5 @@
 
-const { regexTest, genPhone, genEmail, genMAC, genUUID, genGUID } = require('../dist')
+const { regexTest, genPhone, genEmail, genMAC, genUUID, genGUID } = require('../dist/lib')
 
 describe('regexTest utils', () => {
 

@@ -6,7 +6,7 @@ const {
     checkStrStrong,
     clearIllegalChars,
     clearUnexpectedChars
-} = require('../dist')
+} = require('../dist/lib')
 
 describe('string utils', () => {
 

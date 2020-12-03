@@ -1,5 +1,5 @@
 
-const { genEmail, genMAC, genPhone, genPassword, genString, regexTest } = require('../dist')
+const { genEmail, genMAC, genPhone, genPassword, genString, regexTest } = require('../dist/lib')
 
 describe('generator utils', () => {
 

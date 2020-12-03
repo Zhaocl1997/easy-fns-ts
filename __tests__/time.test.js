@@ -1,5 +1,5 @@
 
-const { formatTime, formatAgo, getNow } = require('../dist')
+const { formatTime, formatAgo, getNow } = require('../dist/lib')
 
 describe('time utils', () => {
 

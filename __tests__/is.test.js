@@ -12,10 +12,9 @@ const {
     isFunction,
     isClient,
     isServer,
-    isWindow
-} = require('../dist')
-
-const { regex } = require('../dist')
+    isWindow,
+    regex
+} = require('../dist/lib')
 
 describe('is utils', () => {
 

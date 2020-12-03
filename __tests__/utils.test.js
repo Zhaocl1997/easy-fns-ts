@@ -10,7 +10,7 @@ const {
     countAge,
     filterObj,
     regexTest
-} = require('../dist')
+} = require('../dist/lib')
 
 describe('check value is valid', () => {
 
