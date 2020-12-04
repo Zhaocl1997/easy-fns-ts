@@ -65,10 +65,26 @@ export const curryConcat = (...args: any[]): any => curry(() => args.reduce((a: 
  * @param {String} uniqueField 去重根据字段key值，默认id
  * @return {Array}
  */
-export function objectArrayUnique<T = any>(arr: T[], key = 'id'): T[] {
+export const objectArrayUnique = <T = any>(arr: T[], key = 'id'): T[] => {
   const map = new Map();
   return arr.filter((item) => {
     const selfItem = item as any;
     return !map.has(selfItem[key]) && map.set(selfItem[key], 1);
   });
+}
+
+/**
+ * @description          寻找一个数组内符合条件的所有索引
+ * @param {Array}    arr 目标数组
+ * @param {Function} cb  回调函数，返回值需为boolean
+ * @return {Array}       在原数组中的索引数组
+ */
+export const findAllIndex = (arr: Array<any>, cb: (item: any) => boolean) => {
+  const ret: Array<number> = [];
+  arr.filter((item, index) => {
+    if (cb(item)) {
+      ret.push(index);
+    }
+  });
+  return ret;
 }
