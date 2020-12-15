@@ -23,8 +23,11 @@ module.exports = {
     "max-len": "off",
     "no-plusplus": "off",
     "no-bitwise": "off",
+    "no-continue": "off",
+    " no-restricted-syntax": "off",
     "no-use-before-define": "off",
     "no-unused-expressions": "off",
+    "import/prefer-default-export": "off",
 
     "@typescript-eslint/no-shadow": "off",
     "@typescript-eslint/no-explicit-any": "off",
