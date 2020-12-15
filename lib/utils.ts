@@ -1,4 +1,5 @@
 import { isObject, isArray } from './is';
+import { e } from './error';
 
 /**
  * @description         检查是否为空(伪)
@@ -83,10 +84,6 @@ export const isEqual = (a: any, b: any): boolean => {
  */
 export const deepClone = (target: any): any => {
   const dp = (t: any): any => {
-    if (!t && typeof t !== 'object') {
-      throw new Error('[deepClone] error arguments');
-    }
-
     const tObj: Record<string, any> = t.constructor === Array ? [] : {};
 
     Object.keys(t).forEach((key) => {
@@ -151,7 +148,7 @@ export const deepMerge = (src: any, target: any): any => {
  */
 export const percentToRGB = (percent: number): string => {
   if (percent > 100 || percent < 0) {
-    throw new Error('Percent should be in [0, 100]');
+    e('utils', 'Percent should be in [0, 100]');
   }
 
   let r;

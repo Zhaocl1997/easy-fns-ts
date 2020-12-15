@@ -12,13 +12,13 @@ export const MAC_ADDRESS_TEMPLATE = 'XX:XX:XX:XX:XX:XX';
 export const MAC_ADDRESS_POOL = '0123456789ABCDEF';
 
 /* console.log 类型 */
-export const THEME_TYPE = {
-  PRIMARY: 'primary',
-  SUCCESS: 'success',
-  WARNING: 'warning',
-  DANGER: 'danger',
-  INFO: 'info',
-};
+export enum THEME_TYPE {
+  PRIMARY = 'primary',
+  SUCCESS = 'success',
+  WARNING = 'warning',
+  DANGER = 'danger',
+  INFO = 'info',
+}
 
 export const PHONE_PREFIX: Array<string> = [
   '131',
@@ -42,3 +42,6 @@ export const EMAIL_SUFFIX: Array<string> = [
   '@sohu.com',
   '@sogou.com',
 ];
+
+// default cache time, in seconds
+export const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7;

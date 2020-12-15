@@ -71,7 +71,7 @@ export const objectArrayUnique = <T = any>(arr: T[], key = 'id'): T[] => {
     const selfItem = item as any;
     return !map.has(selfItem[key]) && map.set(selfItem[key], 1);
   });
-}
+};
 
 /**
  * @description          寻找一个数组内符合条件的所有索引
@@ -87,4 +87,4 @@ export const findAllIndex = (arr: Array<any>, cb: (item: any) => boolean) => {
     }
   });
   return ret;
-}
+};
