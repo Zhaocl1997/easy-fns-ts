@@ -1,10 +1,26 @@
 # Changelog
 
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [1.0.11](https://github.com/Zhaocl1997/easy-fns-ts/compare/v1.0.10...v1.0.11) (2020-12-23)
+
 <a name="next"></a>
 ## next
 
 ### Miscellaneous
 
+-  chore: update .npmignore [[f1701dd](https://github.com/Zhaocl1997/easy-fns-ts/commit/f1701ddf541fb1d64f3eb9d2fdd8582468d5ed81)]
+
+
+<a name="1.0.10"></a>
+## 1.0.10 (2020-12-23)
+
+### Miscellaneous
+
+-  1.0.10 [[c7fb1f1](https://github.com/Zhaocl1997/easy-fns-ts/commit/c7fb1f164a80b893ae747a2597277cbd9d227d52)]
+-  chore: add prettier/lint-staged/husky/commitlint [[68f6ed8](https://github.com/Zhaocl1997/easy-fns-ts/commit/68f6ed8a1c3f3742317df18be9c5cdb51aba5dd6)]
+-  fix: fix copy promise type [[1ee4868](https://github.com/Zhaocl1997/easy-fns-ts/commit/1ee48683b5919f65fdc305d22e157d65ba88ea67)]
+-  test: correct countAge test case [[af38d56](https://github.com/Zhaocl1997/easy-fns-ts/commit/af38d560b0e9579b5300b9008d3ccd2f1c55d8f7)]
 -  chore: add commitlintrc.js and change some eslint rules [[b1c5af6](https://github.com/Zhaocl1997/easy-fns-ts/commit/b1c5af6b935f681c9a672a7158612fba486cd5df)]
 -  chore: add prettier config [[e7d8d1d](https://github.com/Zhaocl1997/easy-fns-ts/commit/e7d8d1de323a3027fa173e8e3be44775430e28ee)]
 -  style: add prettier to make code nicer [[5433563](https://github.com/Zhaocl1997/easy-fns-ts/commit/5433563f5426a03303696a865d52748e4928e61c)]
@@ -112,5 +128,3 @@
 -  chore(npmignore): add npm ignore [[c45c4f0](https://github.com/Zhaocl1997/easy-fns-ts/commit/c45c4f0de89b1ac7df73483f9f577cc99a8f4419)]
 -  refactor(dist): refactor tsc default module to es2015 [[b7e79f8](https://github.com/Zhaocl1997/easy-fns-ts/commit/b7e79f819a0c60d6c9b6c79d8236e2744775e0ec)]
 -  init commit [[98f746d](https://github.com/Zhaocl1997/easy-fns-ts/commit/98f746d37902b39e8f489ff9aae6471ac5d71b2b)]
-
-
