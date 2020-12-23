@@ -39,7 +39,7 @@ const select = (element: any) => {
 }
 
 export const copy = (text: string) =>
-  new Promise((resolve, reject): void => {
+  new Promise((resolve, reject) => {
     const container = document.body
     const isRTL = document.documentElement.getAttribute('dir') === 'rtl'
     const fakeElem = document.createElement('textarea')
@@ -58,7 +58,7 @@ export const copy = (text: string) =>
 
     try {
       document.execCommand('copy')
-      resolve()
+      resolve(true)
     } catch (err) {
       reject()
     }
