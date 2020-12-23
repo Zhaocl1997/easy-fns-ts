@@ -6,7 +6,6 @@ module.exports = {
     node: true,
   },
   extends: [
-    'airbnb-base',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
   ],
@@ -15,42 +14,22 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: [
-    '@typescript-eslint',
-  ],
+  plugins: ['@typescript-eslint'],
   rules: {
-    "no-shadow": "off",
-    "max-len": "off",
-    "no-plusplus": "off",
-    "no-bitwise": "off",
-    "no-continue": "off",
-    " no-restricted-syntax": "off",
-    "no-use-before-define": "off",
-    "no-unused-expressions": "off",
-    "import/prefer-default-export": "off",
-
-    "@typescript-eslint/no-shadow": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      {
-        "js": "never",
-        "jsx": "never",
-        "ts": "never",
-        "tsx": "never"
-      }
-    ]
-  },
-  settings: {
-    "import/resolver": {
-      node: {
-        extensions: [".js", ".jsx", ".ts", ".tsx"]
-      }
-    }
-  },
-};
+    // 0 -> off, 1 -> warn, 2 -> error
+    'no-shadow': 0,
+    'max-len': 0,
+    'no-plusplus': 0,
+    'no-bitwise': 0,
+    'no-continue': 0,
+    'no-restricted-syntax': 0,
+    'no-use-before-define': 0,
+    'no-unused-expressions': 0,
+    
+    '@typescript-eslint/no-shadow': 0,
+    '@typescript-eslint/no-explicit-any': 0,
+    '@typescript-eslint/no-non-null-assertion': 0,
+    '@typescript-eslint/no-unused-vars': 0,
+    '@typescript-eslint/explicit-module-boundary-types': 0
+  }
+}
