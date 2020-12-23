@@ -147,7 +147,7 @@ describe('common utils', () => {
     expect(regexTest.isRGB(rgb)).toBeTruthy()
   })
 
-  test('calculate time string to age', () => {
-    expect(countAge('1997-12-22')).toBe(22)
+  test('calculate time string to age', () => {   
+    expect(countAge('1997-12-22')).toBe(23)
   })
 })
