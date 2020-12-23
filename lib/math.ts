@@ -5,10 +5,10 @@
  * @return {Number}
  */
 export const getRandomInt = (min: number, max: number): number => {
-  const cmin = Math.ceil(min);
-  const cmax = Math.floor(max);
-  return Math.floor(Math.random() * (cmax - cmin + 1)) + cmin;
-};
+  const cmin = Math.ceil(min)
+  const cmax = Math.floor(max)
+  return Math.floor(Math.random() * (cmax - cmin + 1)) + cmin
+}
 
 /**
  * @description       生成斐波那契数组
@@ -16,32 +16,32 @@ export const getRandomInt = (min: number, max: number): number => {
  * @return {Array}    斐波那契数组
  */
 export const Fibonacci = (times: number): Array<number> => {
-  if (times === 0 || times < 0) return [0];
-  const arr: Array<number> = [];
+  if (times === 0 || times < 0) return [0]
+  const arr: Array<number> = []
 
   function* fib(x: number) {
-    let a = 1;
-    let b = 1;
-    let n = 0;
+    let a = 1
+    let b = 1
+    let n = 0
     while (n <= x) {
-      yield a; // 这个分号一定要有
-      [a, b] = [b, a + b];
-      n++;
+      yield a // 这个分号一定要有
+      ;[a, b] = [b, a + b]
+      n++
     }
   }
 
-  const gen = fib(times);
+  const gen = fib(times)
 
   function next(): void {
-    const res = gen.next();
+    const res = gen.next()
     if (res.done) {
-      return;
+      return
     }
-    arr.push(res.value);
-    next();
+    arr.push(res.value)
+    next()
   }
 
-  next();
+  next()
 
-  return arr;
-};
+  return arr
+}

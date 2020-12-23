@@ -1,6 +1,6 @@
 function selfEval(fn: string) {
-  const Fn = Function;
-  return new Fn(`return ${fn}`)();
+  const Fn = Function
+  return new Fn(`return ${fn}`)()
 }
 
 /**
@@ -9,7 +9,10 @@ function selfEval(fn: string) {
  * @param  {String} type 转换格式，默认-
  * @return {String}
  */
-export const line2Camel = (str: string, type = '-'): string => str.replace(selfEval(`/\\${type}(\\w)/g`), (all, letter) => letter.toUpperCase());
+export const line2Camel = (str: string, type = '-'): string =>
+  str.replace(selfEval(`/\\${type}(\\w)/g`), (all, letter) =>
+    letter.toUpperCase()
+  )
 
 /**
  * @description          驼峰转换下划线
@@ -17,14 +20,16 @@ export const line2Camel = (str: string, type = '-'): string => str.replace(selfE
  * @param  {String} type 转换格式，默认-
  * @return {String}
  */
-export const camel2Line = (str: string, type = '-'): string => str.replace(/([A-Z])/g, `${type}$1`).toLowerCase();
+export const camel2Line = (str: string, type = '-'): string =>
+  str.replace(/([A-Z])/g, `${type}$1`).toLowerCase()
 
 /**
  * @description         去除字符串两边的空格
  * @param  {String} str 目标字符串
  * @return {String}
  */
-export const trimSpaceAside = (str: string): string => (str || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
+export const trimSpaceAside = (str: string): string =>
+  (str || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
 
 /**
  * @description         检查字符串强度，适用于密码检查
@@ -32,27 +37,27 @@ export const trimSpaceAside = (str: string): string => (str || '').replace(/^[\s
  * @return {Number}     1-4其中一个，4为最强
  */
 export const checkStrStrong = (str: string): number => {
-  let modes = 0;
+  let modes = 0
 
-  if (str.length < 3) return modes;
-  if (/\d/.test(str)) modes++; // number
-  if (/[a-z]/.test(str)) modes++; // lower
-  if (/[A-Z]/.test(str)) modes++; // upper
-  if (/\W/.test(str)) modes++; // special
+  if (str.length < 3) return modes
+  if (/\d/.test(str)) modes++ // number
+  if (/[a-z]/.test(str)) modes++ // lower
+  if (/[A-Z]/.test(str)) modes++ // upper
+  if (/\W/.test(str)) modes++ // special
 
   switch (modes) {
     case 1:
-      return 1;
+      return 1
     case 2:
-      return 2;
+      return 2
     case 3:
     case 4:
-      return str.length < 12 ? 3 : 4;
+      return str.length < 12 ? 3 : 4
     /* istanbul ignore next */
     default:
-      return 1;
+      return 1
   }
-};
+}
 
 /**
  * @author Zhaocl1997   (https://github.com/Zhaocl1997)
@@ -63,15 +68,15 @@ export const checkStrStrong = (str: string): number => {
  * @return {String}     清除完的字符串
  */
 export const clearIllegalChars = (str: string, arr: Array<string>): string => {
-  let newStr = str;
+  let newStr = str
   for (let i = 0; i < arr.length; i++) {
     if (str.indexOf(arr[i]) !== -1) {
-      const regexp = `/\\${arr[i]}/g`;
-      newStr = newStr.replace(selfEval(regexp), '');
+      const regexp = `/\\${arr[i]}/g`
+      newStr = newStr.replace(selfEval(regexp), '')
     }
   }
-  return newStr;
-};
+  return newStr
+}
 
 interface RegexTemplate {
   number: string
@@ -82,7 +87,7 @@ interface RegexTemplate {
 enum AllowedInputTypeEnum {
   NUMBER = 'number',
   LETTER = 'letter',
-  CHINESE = 'chinese'
+  CHINESE = 'chinese',
 }
 
 /**
@@ -95,15 +100,15 @@ enum AllowedInputTypeEnum {
  */
 export const clearUnexpectedChars = (
   str: string,
-  type: AllowedInputTypeEnum = AllowedInputTypeEnum.NUMBER,
+  type: AllowedInputTypeEnum = AllowedInputTypeEnum.NUMBER
 ): string => {
-  const reverseRegex = (v: string) => `/${v}/g`;
+  const reverseRegex = (v: string) => `/${v}/g`
 
   const regexTemplate: RegexTemplate = {
     number: '[^0-9-.]',
     letter: '[^A-Za-z]',
     chinese: '[^\u4e00-\u9fa5]',
-  };
+  }
 
-  return str.replace(selfEval(reverseRegex(regexTemplate[type])), '');
-};
+  return str.replace(selfEval(reverseRegex(regexTemplate[type])), '')
+}

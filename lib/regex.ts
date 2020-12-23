@@ -34,8 +34,7 @@ export const regex = {
   },
 
   uuid: /\w{8}(-\w{4}){3}-\w{12}/,
-
-};
+}
 
 export const regexTest = {
   isUrl: (val: string): boolean => regex.url.test(val),
@@ -49,4 +48,4 @@ export const regexTest = {
   isRGB: (val: string): boolean => regex.color.rgb.test(val),
   isHEX: (val: string): boolean => regex.color.hex.test(val),
   isUUID: (val: string): boolean => regex.uuid.test(val),
-};
+}
