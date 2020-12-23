@@ -1,0 +1,8 @@
+__coverage__
+dist
+node_modules
+tsconfig.json
+README.md
+jest.config.js
+.eslintrc.js
+.commitlintrc.js
