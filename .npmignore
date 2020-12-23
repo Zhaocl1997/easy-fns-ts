@@ -12,3 +12,9 @@ __coverage__
 tsconfig.json
 
 jest.config.js
+
+.commitlintrc.js
+
+.prettierignore
+
+.prettierrc.js
