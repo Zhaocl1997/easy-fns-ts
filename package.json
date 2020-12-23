@@ -2,19 +2,23 @@
   "name": "easy-fns-ts",
   "version": "1.0.9",
   "description": "easy-fns typescript version",
-  "main": "index.js",
+  "main": "dist/easyFns.js",
   "scripts": {
     "dev": "tsc -w",
     "lint": "eslint . --ext .ts -f table",
-    "fix": "eslint . --ext .ts -f table --fix",
+    "lint:fix": "eslint . --ext .ts -f table --fix",
+    "lint:prettier": "prettier --write lib",
     "test": "jest",
-    "cover": "jest --coverage",
-    "setNPM": "npm config set registry https://registry.npmjs.org/",
-    "setTB": "npm config set registry https://registry.npm.taobao.org",
-    "preprod": "tsc && npm run esm",
-    "prod": "npm run setNPM && npm version patch && npm publish",
-    "postprod": "git push && npm run setTB",
-    "esm": "tsc -m es2020 --outDir ./dist/esm"
+    "test:cover": "jest --coverage",
+    "prerelease": "npm run build:commonjs && npm run build:esm",
+    "release": "npm run set:npm && npm version patch && npm publish",
+    "postrelease": "git push && npm run set:taobao",
+    "build:commonjs": "tsc --outDir ./dist/lib",
+    "build:esm": "tsc -m es2020 --outDir ./dist/esm",
+    "commit": "git cz",
+    "commit:log": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && gitmoji-changelog",
+    "set:npm": "npm config set registry https://registry.npmjs.org/",
+    "set:taobao": "npm config set registry https://registry.npm.taobao.org"
   },
   "author": "zhaocl1997",
   "license": "ISC",
@@ -25,15 +29,39 @@
     "regex",
     "tree",
     "time",
-    "utils"
+    "utils",
+    "storage"
   ],
   "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
+    "commitizen": "^4.2.2",
+    "conventional-changelog-cli": "^2.1.1",
     "eslint": "^7.14.0",
-    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
+    "gitmoji-changelog": "^2.2.0",
+    "husky": "^4.3.6",
     "jest": "^26.6.3",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
     "typescript": "^4.1.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -e $GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{ts}": [
+      "npm run test",
+      "npm run lint",
+      "npm run lint:prettier"
+    ]
+  },
+  "changelog": {
+    "emojis": true
   }
 }
