@@ -8,6 +8,7 @@ const {
   percentToRGB,
   countAge,
   filterObj,
+  omit,
   regexTest,
 } = require('../dist/lib')
 
@@ -137,6 +138,19 @@ describe('object operation', () => {
       name: 'jack',
       marriage: false,
       family: { father: { name: 'ken', age: 45 } },
+    })
+  })
+
+  test('remove useless key on an object', () => {
+    const objTarget = {
+      name: 'jack',
+      age: 23,
+      marriage: false,
+      hobbies: ['jogging'],
+    }
+    expect(omit(objTarget, ['age', 'marriage'])).toEqual({
+      name: 'jack',
+      hobbies: ['jogging'],
     })
   })
 })

@@ -4,7 +4,7 @@
   "description": "easy-fns typescript version",
   "main": "dist/easyFns.js",
   "scripts": {
-    "dev": "tsc -w",
+    "dev": "tsc --outDir ./dist/lib -w",
     "lint": "eslint . --ext .ts -f table",
     "lint:fix": "eslint . --ext .ts -f table --fix",
     "lint:prettier": "prettier --write lib",
