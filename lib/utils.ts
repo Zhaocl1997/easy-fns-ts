@@ -276,15 +276,13 @@ export const filterObj = (obj: any, keys: Array<string> | string): any => {
 /**
  * @description                 剔除对象字段
  * @param  {Object} obj
- * @param  {Array}  uselessKeys 
+ * @param  {Array}  uselessKeys
  * @return {Object}
  */
 export const omit = (obj: any, uselessKeys: string[]) => {
   return Object.keys(obj).reduce(
     (prev, key) =>
-      uselessKeys.includes(key)
-        ? { ...prev }
-        : { ...prev, [key]: obj[key] },
+      uselessKeys.includes(key) ? { ...prev } : { ...prev, [key]: obj[key] },
     {}
   )
 }

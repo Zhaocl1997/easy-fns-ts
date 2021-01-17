@@ -1,19 +1,109 @@
 interface TreeHelperConfig {
   id: string
-  children: string
   pid: string
+  children: string
+}
+
+interface FormatTreeConfig {
+  format: any
+  children?: string
+}
+
+interface OrderTreeConfig {
+  order?: string
+  children?: string
 }
 
 const DEFAULT_CONFIG: TreeHelperConfig = {
   id: 'id',
-  children: 'children',
   pid: 'pid',
+  children: 'children',
 }
 
 const getConfig = (config: Partial<TreeHelperConfig>) => ({
   ...DEFAULT_CONFIG,
   ...config,
 })
+
+/**
+ * @description 根据指定字段排序
+ */
+const compare = (order: string) => (a: any, b: any) => a[order] - b[order]
+
+/**
+ * @description 递归格式化树
+ */
+const treeNodeFormat = (
+  data: any,
+  { format, children = 'children' }: FormatTreeConfig
+) => {
+  const hasChild = Array.isArray(data[children]) && data[children].length > 0
+  const formattedData = format(data) || {}
+  if (hasChild) {
+    return {
+      ...formattedData,
+      [children]: data[children].map((i: number) =>
+        treeNodeFormat(i, {
+          children,
+          format,
+        })
+      ),
+    }
+  } else {
+    return {
+      ...formattedData,
+    }
+  }
+}
+
+/**
+ * @description 递归排序树
+ */
+const treeNodeOrder = (
+  data: any,
+  { order = 'order', children = 'children' }: OrderTreeConfig
+) => {
+  data[children] = data[children]
+    ? data[children].sort(compare(order))
+    : data[children]
+
+  const hasChild = Array.isArray(data[children]) && data[children].length > 0
+  if (hasChild) {
+    return {
+      ...data,
+      [children]: data[children].map((i: number) =>
+        treeNodeOrder(i, {
+          order,
+          children,
+        })
+      ),
+    }
+  } else {
+    return {
+      ...data,
+    }
+  }
+}
+
+/**
+ * @description                   格式化树为指定结构
+ * @param  {Array}  treeData      要格式化的树状结构数据
+ * @param  {FormatTreeConfig} opt 包含格式化方法和children字段
+ * @return {Array}                格式化后的树
+ */
+export function formatTree<T = any>(treeData: T[], opt: FormatTreeConfig): T[] {
+  return treeData.map((node) => treeNodeFormat(node, opt))
+}
+
+/**
+ * @description                  根据指定字段排序树状结构
+ * @param  {Array}  treeData     要排序的树状结构数据
+ * @param  {OrderTreeConfig} opt 包含order字段和children字段
+ * @return {Array}               排序好的树
+ */
+export function orderTree<T = any>(treeData: T[], opt: OrderTreeConfig): T[] {
+  return treeData.map((node) => treeNodeOrder(node, opt))
+}
 
 /**
  * @description            生成树
@@ -26,7 +116,7 @@ export function arrToTree<T = any>(
   config: Partial<TreeHelperConfig> = {}
 ): T[] {
   const conf = getConfig(config) as TreeHelperConfig
-  const { id, children, pid } = conf
+  const { id, pid, children } = conf
 
   const nodeMap = new Map()
   const result: T[] = []
