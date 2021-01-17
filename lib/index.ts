@@ -1,8 +1,12 @@
+
 export * from './array'
 export * from './color'
 export * from './constant'
+export * from './copy'
+export * from './dom'
 export * from './generator'
 export * from './is'
+export * from './log'
 export * from './math'
 export * from './regex'
 export * from './string'
