@@ -35,7 +35,9 @@ const compare = (order: string) => (a: any, b: any) => a[order] - b[order]
  */
 const treeNodeFormat = (
   data: any,
-  { format, children = 'children' }: FormatTreeConfig
+  { format, children = 'children' }: FormatTreeConfig = {
+    format: (i: any) => i,
+  }
 ) => {
   const hasChild = Array.isArray(data[children]) && data[children].length > 0
   const formattedData = format(data) || {}
@@ -61,7 +63,7 @@ const treeNodeFormat = (
  */
 const treeNodeOrder = (
   data: any,
-  { order = 'order', children = 'children' }: OrderTreeConfig
+  { order = 'order', children = 'children' }: OrderTreeConfig = {}
 ) => {
   data[children] = data[children]
     ? data[children].sort(compare(order))
