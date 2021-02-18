@@ -1,7 +1,7 @@
 /**
- * @description         获取一个区间内的随机整数
- * @param  {Number} min 最小整数值
- * @param  {Number} max 最大整数值
+ * @description         get random int
+ * @param  {Number} min 
+ * @param  {Number} max 
  * @return {Number}
  */
 export const getRandomInt = (min: number, max: number): number => {
@@ -11,9 +11,9 @@ export const getRandomInt = (min: number, max: number): number => {
 }
 
 /**
- * @description       生成斐波那契数组
- * @param  {String} n 次数
- * @return {Array}    斐波那契数组
+ * @description       generate Fibonacci array
+ * @param  {String} n time
+ * @return {Array}    
  */
 export const Fibonacci = (times: number): Array<number> => {
   if (times === 0 || times < 0) return [0]
@@ -24,7 +24,7 @@ export const Fibonacci = (times: number): Array<number> => {
     let b = 1
     let n = 0
     while (n <= x) {
-      yield a // 这个分号一定要有
+      yield a // must have the semicolon
       ;[a, b] = [b, a + b]
       n++
     }

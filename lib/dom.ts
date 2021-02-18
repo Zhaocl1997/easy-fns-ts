@@ -1,5 +1,5 @@
 import { trimSpaceAside } from './string'
-import { e } from './error'
+import { error } from './error'
 
 /**
  * @description toggle class
@@ -22,7 +22,7 @@ export const toggleClass = (
  */
 export const hasClass = (ele: HTMLElement, cls: string): boolean => {
   if (!ele || !cls) return false
-  if (cls.indexOf(' ') !== -1) e('dom', 'className should not contain space.')
+  if (cls.indexOf(' ') !== -1) error('dom', 'className should not contain space.')
   if (ele.classList) {
     return ele.classList.contains(cls)
   }

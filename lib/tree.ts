@@ -14,24 +14,30 @@ interface OrderTreeConfig {
   children?: string
 }
 
+/**
+ * @description default tree config
+ */
 const DEFAULT_CONFIG: TreeHelperConfig = {
   id: 'id',
   pid: 'pid',
   children: 'children',
 }
 
+/**
+ * @description get merged tree config
+ */
 const getConfig = (config: Partial<TreeHelperConfig>) => ({
   ...DEFAULT_CONFIG,
   ...config,
 })
 
 /**
- * @description 根据指定字段排序
+ * @description sort by order field
  */
 const compare = (order: string) => (a: any, b: any) => a[order] - b[order]
 
 /**
- * @description 递归格式化树
+ * @description Recursion format
  */
 const treeNodeFormat = (
   data: any,
@@ -59,7 +65,7 @@ const treeNodeFormat = (
 }
 
 /**
- * @description 递归排序树
+ * @description Recursion order
  */
 const treeNodeOrder = (
   data: any,
@@ -88,29 +94,29 @@ const treeNodeOrder = (
 }
 
 /**
- * @description                   格式化树为指定结构
- * @param  {Array}  treeData      要格式化的树状结构数据
- * @param  {FormatTreeConfig} opt 包含格式化方法和children字段
- * @return {Array}                格式化后的树
+ * @description                   format tree into specfic structure
+ * @param  {Array}  treeData      
+ * @param  {FormatTreeConfig} opt include format fn and children field
+ * @return {Array}                
  */
 export function formatTree<T = any>(treeData: T[], opt: FormatTreeConfig): T[] {
   return treeData.map((node) => treeNodeFormat(node, opt))
 }
 
 /**
- * @description                  根据指定字段排序树状结构
- * @param  {Array}  treeData     要排序的树状结构数据
- * @param  {OrderTreeConfig} opt 包含order字段和children字段
- * @return {Array}               排序好的树
+ * @description                  order tree by specfic field
+ * @param  {Array}  treeData     
+ * @param  {OrderTreeConfig} opt include order field and children field
+ * @return {Array}               
  */
 export function orderTree<T = any>(treeData: T[], opt: OrderTreeConfig): T[] {
   return treeData.map((node) => treeNodeOrder(node, opt))
 }
 
 /**
- * @description            生成树
- * @param  {Array}  arr    要构造的数组
- * @param  {Object} config 树配置
+ * @description            arr to tree 
+ * @param  {Array}  arr    
+ * @param  {Object} config 
  * @return {Array}
  */
 export function arrToTree<T = any>(
@@ -135,9 +141,9 @@ export function arrToTree<T = any>(
 }
 
 /**
- * @description            平铺树
- * @param  {Array}  tree   要平铺的树
- * @param  {Object} config 树配置
+ * @description            flat tree to arr
+ * @param  {Array}  tree   
+ * @param  {Object} config 
  * @return {Array}
  */
 export function treeToArr<T = any>(
@@ -162,10 +168,10 @@ export function treeToArr<T = any>(
 }
 
 /**
- * @description            在树中查找节点
- * @param  {Array}  tree   树状结构
- * @param  {Array}  func   查询函数
- * @param  {Object} config 树配置
+ * @description            find tree node by callback function
+ * @param  {Array}  tree   
+ * @param  {Array}  func   callback function
+ * @param  {Object} config 
  * @return {Array}
  */
 export function findNode<T = any>(

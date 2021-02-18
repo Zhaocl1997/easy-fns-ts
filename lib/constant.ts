@@ -42,6 +42,3 @@ export const EMAIL_SUFFIX: Array<string> = [
   '@sohu.com',
   '@sogou.com',
 ]
-
-// default cache time, in seconds
-export const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7

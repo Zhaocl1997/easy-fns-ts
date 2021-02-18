@@ -1,6 +1,6 @@
 /**
- * @description         给url添加时间戳参数
- * @param  {String} url 目标地址
+ * @description         add a timestamp to a url
+ * @param  {String} url 
  * @return {String}
  */
 export const addTimeStamp = (url: string): string => {
@@ -15,10 +15,10 @@ export const addTimeStamp = (url: string): string => {
 }
 
 /**
- * @description           给url添加参数
- * @param  {String} url   目标地址
- * @param  {String} key   参数key值
- * @param  {String} value 参数value值
+ * @description           add params to a url
+ * @param  {String} url   
+ * @param  {String} key   
+ * @param  {String} value 
  * @return {String}
  */
 export const addParams = (url: string, key: string, value: string): string => {
@@ -32,14 +32,14 @@ export const addParams = (url: string, key: string, value: string): string => {
 }
 
 /**
- * @description         提取url参数
- * @param  {String} url 目标地址
- * @return {Object}     参数对象
+ * @description         extract url params into object
+ * @param  {String} url 
+ * @return {Object}     
  */
 export const parseParams = (url: string): unknown => {
   const paramsStr = /.+\?(.+)$/.exec(url)![1]
   const paramsArr = paramsStr.split('&')
-  const paramsObj: { [index: string]: any } = {}
+  const paramsObj: any = {}
 
   paramsArr.forEach((param) => {
     if (/=/.test(param)) {

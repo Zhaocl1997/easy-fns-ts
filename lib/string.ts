@@ -4,9 +4,9 @@ function selfEval(fn: string) {
 }
 
 /**
- * @description          划线转换驼峰
- * @param  {String} str  目标字符串
- * @param  {String} type 转换格式，默认-
+ * @description          line to camel
+ * @param  {String} str  
+ * @param  {String} type default `-`
  * @return {String}
  */
 export const line2Camel = (str: string, type = '-'): string =>
@@ -15,26 +15,26 @@ export const line2Camel = (str: string, type = '-'): string =>
   )
 
 /**
- * @description          驼峰转换下划线
- * @param  {String} str  目标字符串
- * @param  {String} type 转换格式，默认-
+ * @description          camel to line
+ * @param  {String} str  
+ * @param  {String} type default `-`
  * @return {String}
  */
 export const camel2Line = (str: string, type = '-'): string =>
   str.replace(/([A-Z])/g, `${type}$1`).toLowerCase()
 
 /**
- * @description         去除字符串两边的空格
- * @param  {String} str 目标字符串
+ * @description         remove the space aside
+ * @param  {String} str 
  * @return {String}
  */
 export const trimSpaceAside = (str: string): string =>
   (str || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
 
 /**
- * @description         检查字符串强度，适用于密码检查
- * @param  {String} str 目标字符串
- * @return {Number}     1-4其中一个，4为最强
+ * @description         check for the strength of the string
+ * @param  {String} str 
+ * @return {Number}     1 to 4, 4 means strongest
  */
 export const checkStrStrong = (str: string): number => {
   let modes = 0
@@ -61,11 +61,11 @@ export const checkStrStrong = (str: string): number => {
 
 /**
  * @author Zhaocl1997   (https://github.com/Zhaocl1997)
- * @description         清除想要强制清除的字符串，一般指一些敏感的特殊字符
+ * @description         forced remove some unexpected characters
+ * @param  {String} str 
+ * @param  {Array}  arr unexpected string array
+ * @return {String}     
  * @example             clearIllegalChars("a|b/c", ["|", "/"]) => "abc"
- * @param  {String} str 目标字符串
- * @param  {Array} arr  不想要的字符串数组
- * @return {String}     清除完的字符串
  */
 export const clearIllegalChars = (str: string, arr: Array<string>): string => {
   let newStr = str
@@ -92,11 +92,13 @@ enum AllowedInputTypeEnum {
 
 /**
  * @author Zhaocl1997    (https://github.com/Zhaocl1997)
- * @description          限制字符串内容，目前支持只能输入数字，字母和中文
+ * @description          limit the input type
+ * @param  {String} str  
+ * @param  {String} type ["number", "letter", "chinese"] only support for one in the array
+ * @return {String}
  * @example              clearUnexpectedChars("123abc啊啊啊", "number") => "123"
- * @param  {String} str  目标字符串
- * @param  {String} type ["number", "letter", "chinese"] 目前只支持这三个的其中一种
- * @return {String}      清除完的字符串
+ * @example              clearUnexpectedChars("123abc啊啊啊", "letter") => "abc"
+ * @example              clearUnexpectedChars("123abc啊啊啊", "chinese") => "啊啊啊"
  */
 export const clearUnexpectedChars = (
   str: string,
@@ -111,4 +113,22 @@ export const clearUnexpectedChars = (
   }
 
   return str.replace(selfEval(reverseRegex(regexTemplate[type])), '')
+}
+
+/**
+ * @description         upper first character
+ * @param  {String} arr 
+ * @return {String}     
+ */
+export const upperFirst = (str: string): string => {
+  return str.substr(0, 1).toLocaleUpperCase() + str.substr(1, str.length)
+}
+
+/**
+ * @description         lower first character
+ * @param  {String} arr 
+ * @return {String}     
+ */
+export const lowerFirst = (str: string): string => {
+  return str.substr(0, 1).toLocaleLowerCase() + str.substr(1, str.length)
 }

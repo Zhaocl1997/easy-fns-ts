@@ -1,7 +1,7 @@
 /**
- * @description            格式化时间
+ * @description            format time
  * @param  {Date} str
- * @param  {String} format 默认 YYYY-MM-DD HH:mm:ss
+ * @param  {String} format default YYYY-MM-DD HH:mm:ss
  * @return {String}
  */
 export const formatTime = (
@@ -32,21 +32,21 @@ export const formatTime = (
 }
 
 /**
- * @description            获取当前格式化的时间
- * @param  {String} format 默认 YYYY-MM-DD HH:mm:ss
+ * @description            get formatted now time
+ * @param  {String} format default YYYY-MM-DD HH:mm:ss
  * @return {String}
  */
 export const getNow = (format = 'YYYY-MM-DD HH:mm:ss'): string =>
   formatTime(new Date(), format)
 
 /**
- * @description         格式化时间为多久前
+ * @description         format ago
  * @param  {String} str
  * @return {String}
  */
 export const formatAgo = (str: string | Date): string => {
   const date = new Date(Number(str))
-  const time = new Date().getTime() - date.getTime() // 现在的时间-传入的时间 = 相差的时间（单位 = 毫秒）
+  const time = new Date().getTime() - date.getTime()
 
   if (time < 0) {
     return ''

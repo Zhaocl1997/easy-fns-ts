@@ -10,16 +10,16 @@ import {
 import { getRandomElement, getRandomElements } from './array'
 
 /**
- * @description         生成随机字符串
- * @param  {Number} len 位数，默认32位
- * @return {String}     随机字符串
+ * @description         generate random string
+ * @param  {Number} len length, default is 32
+ * @return {String}    
  */
 export const genString = (len = 32): string =>
   getRandomElements(ALL_STRING.split(''), len).join('')
 
 /**
- * @description     生成随机mac地址
- * @return {String} 随机mac地址
+ * @description     generate random macAddress
+ * @return {String}
  */
 export const genMAC = (): string =>
   MAC_ADDRESS_TEMPLATE.replace(/X/g, () =>
@@ -27,30 +27,30 @@ export const genMAC = (): string =>
   )
 
 /**
- * @description     生成随机手机号
- * @return {String} 随机手机号
+ * @description     generate random phone number
+ * @return {String}
  */
 export const genPhone = (): string =>
   getRandomElement(PHONE_PREFIX) +
   getRandomElements(NUMBER_STRING.split(''), 8).join('')
 
 /**
- * @description     生成随机邮箱
- * @return {String} 随机邮箱
+ * @description     generate random email address
+ * @return {String} 
  */
 export const genEmail = (): string =>
   genString(8) + getRandomElement(EMAIL_SUFFIX)
 
 /**
- * @description     生成随机密码
- * @param  {Number} len 位数，默认16位
- * @return {String} 随机密码
+ * @description         generate random password
+ * @param  {Number} len length, default is 16
+ * @return {String}
  */
 export const genPassword = (len = 16): string =>
   getRandomElements((ALL_STRING + ALL_SYMBOL).split(''), len).join('')
 
 /**
- * @description     生成guid
+ * @description     generate guid
  * @return {String}
  */
 export const genGUID = (): string =>
@@ -61,7 +61,7 @@ export const genGUID = (): string =>
   })
 
 /**
- * @description     生成uuid
+ * @description     generate uuid
  * @return {String}
  */
 export const genUUID = (): string => {
@@ -86,7 +86,7 @@ export const genUUID = (): string => {
 }
 
 /**
- * @description     生成guid
+ * @description     generate guid
  * @return {String}
  */
 export const genGUID2 = (): string => {
@@ -97,9 +97,9 @@ export const genGUID2 = (): string => {
 }
 
 /**
- * @description           生成uuid
- * @param  {Number} len   长度
- * @param  {Number} radix 基数
+ * @description           generate uuid
+ * @param  {Number} len   length
+ * @param  {Number} radix radix
  * @return {String}
  */
 export const genUUID2 = (len: number, radix: number): string => {

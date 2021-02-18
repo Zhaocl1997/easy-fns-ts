@@ -5,6 +5,6 @@ class EasyFnsError extends Error {
   }
 }
 
-export const e = (scope: string, m: string) => {
+export const error = (scope: string, m: string) => {
   throw new EasyFnsError(`[${scope}] ${m}`)
 }
