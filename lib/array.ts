@@ -1,18 +1,19 @@
+import { error } from './error';
 import { getRandomInt } from './math'
 
 /**
- * @description        获取数组随意一项
- * @param  {Array} arr 目标数组
- * @return {Any}       目标数组的一项
+ * @description        get random one element in an array
+ * @param  {Array} arr 
+ * @return {Any}      
  */
 export const getRandomElement = (arr: Array<unknown>): unknown =>
   arr[Math.floor(Math.random() * arr.length)]
 
 /**
- * @description           获取数组随机多项
- * @param  {Array} arr    目标数组
- * @param  {Number} count 想要获取的项目数量，默认目标数组长度
- * @return {Array}        目标数组的多项
+ * @description           get random elements in an array
+ * @param  {Array}  arr    
+ * @param  {Number} count 
+ * @return {Array}        
  */
 export const getRandomElements = (
   arr: Array<unknown>,
@@ -56,16 +57,16 @@ const curry = <T extends (...args: any) => any>(fn: T): Curried<T> => {
 }
 
 /**
- * @description    柯里化concat
+ * @description    curry concat
  * @return {Array}
  */
 export const curryConcat = (...args: any[]): any =>
   curry(() => args.reduce((a: any, b: any) => a.concat(b)))
 
 /**
- * @description                对象数组去重
- * @param {Array} arr          目标数组
- * @param {String} uniqueField 去重根据字段key值，默认id
+ * @description                object array deduplication
+ * @param {Array}  arr         
+ * @param {String} uniqueField the field for deduplicate, default is id
  * @return {Array}
  */
 export const objectArrayUnique = <T = any>(arr: T[], key = 'id'): T[] => {
@@ -77,10 +78,10 @@ export const objectArrayUnique = <T = any>(arr: T[], key = 'id'): T[] => {
 }
 
 /**
- * @description          寻找一个数组内符合条件的所有索引
- * @param {Array}    arr 目标数组
- * @param {Function} cb  回调函数，返回值需为boolean
- * @return {Array}       在原数组中的索引数组
+ * @description          find all fulfilled `cb` indexs in an array
+ * @param {Array}    arr 
+ * @param {Function} cb  callback function, return value should be boolean
+ * @return {Array}       index in original array
  */
 export const findAllIndex = (arr: Array<any>, cb: (item: any) => boolean) => {
   const ret: Array<number> = []
@@ -90,4 +91,55 @@ export const findAllIndex = (arr: Array<any>, cb: (item: any) => boolean) => {
     }
   })
   return ret
+}
+
+/**
+ * @description        shuffle the array
+ * @param {Array}  arr 
+ * @return {Array}     
+ */
+export const shuffle = (arr: Array<any>): Array<any> => {
+  return arr.sort(() => Math.random() - 0.5)
+}
+
+/**
+ * @description      intersection
+ * @param {Array}  a 
+ * @param {Array}  b 
+ * @return {Array}   
+ */
+export const intersect = (a: Array<any>, b: Array<any>): Array<any> => {
+  const mySet = new Set(b)
+  return a.filter(v => mySet.has(v))
+}
+
+/**
+ * @description      except, a - b
+ * @param {Array}  a 
+ * @param {Array}  b 
+ * @return {Array}   
+ */
+export const except = (a: Array<any>, b: Array<any>): Array<any> => {
+  if (a.length < b.length) {
+    error("Array", "First arr length must be bigger than the second.")
+  }
+  const mySet = new Set(b)
+  return a.filter(v => !mySet.has(v))
+}
+
+/**
+ * @description      complement
+ * @param {Array}  a 
+ * @param {Array}  b 
+ * @return {Array}   
+ */
+export const complement = (a: Array<any>, b: Array<any>): Array<any> => {
+  if (a.length < b.length) {
+    error("Array", "First arr length must be bigger than the second.")
+  }
+
+  const set1 = new Set(a)
+  const set2 = new Set(b)
+
+  return [...a.filter(v => !set2.has(v)), ...b.filter(v => !set1.has(v))]
 }
