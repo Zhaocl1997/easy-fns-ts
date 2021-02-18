@@ -34,7 +34,7 @@ interface textClass {
 }
 
 /**
- * @description 打印彩色文字
+ * @description log colorfully
  */
 const colorful = (textArr: Array<textClass>) => {
   console.log(
@@ -43,56 +43,54 @@ const colorful = (textArr: Array<textClass>) => {
   )
 }
 
-export const log = {
-  /**
-   * @description 打印一个 [ title | text ] 样式的信息
-   * @param {String} title title text
-   * @param {String} info info text
-   * @param {String} type style
-   */
-  capsule: (title: string, info: string, type = THEME_TYPE.PRIMARY): void => {
-    console.log(
-      `%c ${title} %c ${info} %c`,
-      'background: #35495E; padding: 1px; border-radius: 3px 0 0 3px; color: #fff;',
-      `background: ${typeColor(
-        type
-      )}; padding: 1px; border-radius: 0 3px 3px 0; color: #fff;`,
-      'background: transparent'
-    )
-  },
+/**
+* @description          capsule log
+* @param {String} title title
+* @param {String} info  content
+* @param {String} type  style
+*/
+export const capsuleLog = (title: string, info: string, type = THEME_TYPE.PRIMARY): void => {
+  console.log(
+    `%c ${title} %c ${info} %c`,
+    'background: #35495E; padding: 1px; border-radius: 3px 0 0 3px; color: #fff;',
+    `background: ${typeColor(
+      type
+    )}; padding: 1px; border-radius: 0 3px 3px 0; color: #fff;`,
+    'background: transparent'
+  )
+}
 
-  /**
-   * @description 打印 primary 样式的文字
-   */
-  primary: (text: string) => {
-    colorful([{ text, type: THEME_TYPE.PRIMARY }])
-  },
+/**
+ * @description primary 
+ */
+export const primaryLog = (text: string) => {
+  colorful([{ text, type: THEME_TYPE.PRIMARY }])
+}
 
-  /**
-   * @description 打印 success 样式的文字
-   */
-  success: (text: string) => {
-    colorful([{ text, type: THEME_TYPE.SUCCESS }])
-  },
+/**
+ * @description success
+ */
+export const successLog = (text: string) => {
+  colorful([{ text, type: THEME_TYPE.SUCCESS }])
+}
 
-  /**
-   * @description 打印 warning 样式的文字
-   */
-  warning: (text: string) => {
-    colorful([{ text, type: THEME_TYPE.WARNING }])
-  },
+/**
+ * @description warning
+ */
+export const warningLog = (text: string) => {
+  colorful([{ text, type: THEME_TYPE.WARNING }])
+}
 
-  /**
-   * @description 打印 danger 样式的文字
-   */
-  danger: (text: string) => {
-    colorful([{ text, type: THEME_TYPE.DANGER }])
-  },
+/**
+ * @description danger
+ */
+export const dangerLog = (text: string) => {
+  colorful([{ text, type: THEME_TYPE.DANGER }])
+}
 
-  /**
-   * @description 打印 danger 样式的文字
-   */
-  info: (text: string) => {
-    colorful([{ text, type: THEME_TYPE.INFO }])
-  },
+/**
+ * @description info
+ */
+export const infoLog = (text: string) => {
+  colorful([{ text, type: THEME_TYPE.INFO }])
 }
