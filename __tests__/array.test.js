@@ -3,6 +3,10 @@ const {
   getRandomElements,
   curryConcat,
   objectArrayUnique,
+  shuffle,
+  intersect,
+  except,
+  complement
 } = require('../dist/lib')
 
 describe('array utils', () => {
@@ -49,5 +53,47 @@ describe('array utils', () => {
       { id: 2, name: '李四' },
       { id: 5, name: '李四5' },
     ])
+  })
+
+  test('shuffle the array', () => {
+    const arr = [1, 3, 5, 7, 9]
+    expect(shuffle(arr)).toEqual(expect.arrayContaining(arr))
+    expect(shuffle(arr)).toHaveLength(arr.length)
+  })
+
+  test('shuffle the complex array', () => {
+    const arr = [
+      {
+        name: 'jack',
+        age: 23
+      },
+      {
+        name: 'rose',
+        age: 22
+      },
+      {
+        name: 'lucy',
+        age: 20
+      }
+    ]
+    expect(shuffle(arr)).toHaveLength(arr.length)
+  })
+
+  test('intersect', () => {
+    const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    const b = [1, 3, 5, 7, 9, 11]
+    expect(intersect(a, b)).toEqual([1, 3, 5, 7, 9])
+  })
+
+  test('except', () => {
+    const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    const b = [1, 3, 5, 7, 9, 11]
+    expect(except(a, b)).toEqual([2, 4, 6, 8, 10])
+  })
+
+  test('complement', () => {
+    const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    const b = [1, 3, 5, 7, 9, 11]
+    expect(complement(a, b)).toEqual([2, 4, 6, 8, 10, 11])
   })
 })

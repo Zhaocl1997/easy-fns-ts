@@ -96,13 +96,61 @@ describe('tree utils', () => {
   })
 
   test('find node in tree', () => {
+    const target = [
+      {
+        id: 1,
+        name: '1',
+        children: [
+          {
+            id: 2,
+            name: '1-1',
+            parentId: 1,
+            children: [
+              {
+                id: 3,
+                name: '1-1-1',
+                parentId: 2,
+                children: [
+                  {
+                    id: 6,
+                    name: '1-1-1-1',
+                    parentId: 3,
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 4,
+            name: '1-2',
+            parentId: 1,
+            children: [
+              {
+                id: 5,
+                name: '1-2-2',
+                parentId: 4,
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 7,
+        name: '2',
+        children: [],
+      },
+    ]
+
     const ret = {
       id: 3,
       name: '1-1-1',
       parentId: 2,
       children: [{ id: 6, name: '1-1-1-1', parentId: 3, children: [] }],
     }
-    expect(findNode(dcTree, (node) => node.name === '1-1-1')).toEqual(ret)
+
+    expect(findNode(target, (node) => node.name === '1-1-1')).toEqual(ret)
   })
 
   test('format tree into specific structure', () => {

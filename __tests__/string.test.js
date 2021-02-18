@@ -5,6 +5,8 @@ const {
   checkStrStrong,
   clearIllegalChars,
   clearUnexpectedChars,
+  upperFirst,
+  lowerFirst
 } = require('../dist/lib')
 
 describe('string utils', () => {
@@ -48,5 +50,13 @@ describe('string utils', () => {
     expect(clearUnexpectedChars('123abc阿松大', 'number')).toBe('123')
     expect(clearUnexpectedChars('123abc阿松大', 'letter')).toBe('abc')
     expect(clearUnexpectedChars('123abc阿松大', 'chinese')).toBe('阿松大')
+  })
+
+  test('upper first character', () => {
+    expect(upperFirst('input')).toBe('Input')
+  })
+
+  test('lower first character', () => {
+    expect(lowerFirst('Input')).toBe('input')
   })
 })

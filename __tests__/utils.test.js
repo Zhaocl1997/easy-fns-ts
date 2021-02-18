@@ -4,12 +4,11 @@ const {
 
   deepClone,
   deepMerge,
+  deepReplaceKey,
 
-  percentToRGB,
   countAge,
   filterObj,
   omit,
-  regexTest,
 } = require('../dist/lib')
 
 describe('check value is valid', () => {
@@ -153,15 +152,59 @@ describe('object operation', () => {
       hobbies: ['jogging'],
     })
   })
+
+  test('deep replace key into new one', () => {
+    const target = {
+      name: 'jack',
+      age: 21,
+      family: [
+        {
+          name: 'lucy',
+          age: 23
+        },
+        {
+          name: 'tom',
+          age: 16
+        }
+      ],
+      mom: {
+        name: 'sue',
+        age: 46
+      },
+      dad: {
+        name: 'trump',
+        age: 48
+      }
+    }
+
+    expect(deepReplaceKey(target, { name: 'nameNew', age: 'ageNew' })).toEqual({
+      nameNew: 'jack',
+      ageNew: 21,
+      family: [
+        {
+          nameNew: 'lucy',
+          ageNew: 23
+        },
+        {
+          nameNew: 'tom',
+          ageNew: 16
+        }
+      ],
+      mom: {
+        nameNew: 'sue',
+        ageNew: 46
+      },
+      dad: {
+        nameNew: 'trump',
+        ageNew: 48
+      }
+    })
+  })
 })
 
 describe('common utils', () => {
-  test('percent number to RGB', () => {
-    const rgb = percentToRGB('80')
-    expect(regexTest.isRGB(rgb)).toBeTruthy()
-  })
-
-  test('calculate time string to age', () => {   
+  test('calculate time string to age', () => {
     expect(countAge('1997-12-22')).toBe(23)
+    expect(countAge(new Date('1997-12-22'))).toBe(23)
   })
 })
