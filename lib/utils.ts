@@ -1,10 +1,10 @@
+import { formatTime } from './time';
 import { isObject, isArray } from './is'
-import { e } from './error'
 
 /**
- * @description         检查是否为空(伪)
- * @param  {String} val 目标值
- * @return {Boolean}    true为空，false为不空
+ * @description         simplely checkout target value is empty or not
+ * @param  {String} val 
+ * @return {Boolean}    
  */
 export const isEmpty = (val: any): boolean => {
   // null or undefined
@@ -41,10 +41,10 @@ export const isEmpty = (val: any): boolean => {
 }
 
 /**
- * @description       比较两值是否相等(伪)
- * @param  {String} a 目标a
- * @param  {String} b 目标b
- * @return {Boolean}  true为相等，false为不等
+ * @description       simplely compare two target values is equal or not
+ * @param  {String} a 
+ * @param  {String} b 
+ * @return {Boolean}  
  */
 export const isEqual = (a: any, b: any): boolean => {
   if (a === b) return true
@@ -81,16 +81,16 @@ export const isEqual = (a: any, b: any): boolean => {
 }
 
 /**
- * @description                    深克隆(伪)
- * @param  {Object | Array} target 目标参数
- * @return {Object | Array}        深克隆完的对象或数组
+ * @description                    simplely deep clone an object
+ * @param  {Object | Array} target 
+ * @return {Object | Array}        
  */
 export const deepClone = (target: any): any => {
   const dp = (t: any): any => {
     const tObj: Record<string, any> = t.constructor === Array ? [] : {}
 
     Object.keys(t).forEach((key) => {
-      if (t[key] && typeof t[key] === 'object') {
+      if (t[key] && isObject(t[key])) {
         tObj[key] = dp(t[key])
       } else {
         tObj[key] = t[key]
@@ -104,9 +104,9 @@ export const deepClone = (target: any): any => {
 }
 
 /**
- * @description                    深冻结(伪)
- * @param  {Object | Array} target 目标参数
- * @return {Object | Array}        深冻结完的对象或数组
+ * @description                    simplely deep freeze an object
+ * @param  {Object | Array} target 
+ * @return {Object | Array}        
  */
 export const deepFreeze = (target: any): any => {
   let prop
@@ -119,7 +119,7 @@ export const deepFreeze = (target: any): any => {
     if (
       !(
         !Object.prototype.hasOwnProperty.call(target, key) ||
-        !(typeof prop === 'object') ||
+        !(isObject(prop)) ||
         Object.isFrozen(prop)
       )
     ) {
@@ -131,12 +131,12 @@ export const deepFreeze = (target: any): any => {
 }
 
 /**
- * @description                    深合并(伪)
+ * @description                    simplely deep merged two objects
  * @param  {Object | Array} src
  * @param  {Object | Array} target
  * @return {Object | Array}
  */
-export const deepMerge = (src: any, target: any): any => {
+export const deepMerge = (src: any = {}, target: any = {}): any => {
   const origin = deepClone(src)
 
   Object.keys(target).forEach((key) => {
@@ -149,41 +149,16 @@ export const deepMerge = (src: any, target: any): any => {
   return origin
 }
 
-/**
- * @description             百分比转化为RGB颜色
- * @param  {Number} percent 百分比数字 不能超过100小于0
- * @return {String}         rgb字符串
- */
-export const percentToRGB = (percent: number): string => {
-  if (percent > 100 || percent < 0) {
-    e('utils', 'Percent should be in [0, 100]')
-  }
-
-  let r
-  let g
-  const b = 0
-
-  if (percent < 50) {
-    // green to yellow
-    r = Math.floor(255 * (percent / 50))
-    g = 255
-  } else {
-    // yellow to red
-    r = 255
-    g = Math.floor(255 * ((50 - (percent % 50)) / 50))
-  }
-
-  return `rgb(${r}, ${g}, ${b})`
-}
 
 /**
- * @description              计算年龄
- * @param  {String} birthStr 字符串日期，类似于 2020-10-20
- * @return {Number}          年龄
+ * @description              count age
+ * @param  {String} date 
+ * @return {Number}          
  */
-export const countAge = (birthStr: string): number => {
+export const countAge = (date: string | Date): number => {
+  const formatedDate = formatTime(date)
   let returnAge
-  const birthStrArr = birthStr.split('-')
+  const birthStrArr = formatedDate.split('-')
   const birthYear = +birthStrArr[0]
   const birthMonth = +birthStrArr[1]
   const birthDay = +birthStrArr[2]
@@ -249,9 +224,9 @@ export const countAge = (birthStr: string): number => {
  */
 
 /**
- * @description                 对象字段过滤，支持模糊过滤字段
+ * @description                  filter an object by specfic keys
  * @param  {Object}         obj
- * @param  {Array | String} arr 字符串字段数组，或者是字符串
+ * @param  {Array | String} keys string or string array
  * @return {Object}
  */
 export const filterObj = (obj: any, keys: Array<string> | string): any => {
@@ -274,7 +249,7 @@ export const filterObj = (obj: any, keys: Array<string> | string): any => {
 }
 
 /**
- * @description                 剔除对象字段
+ * @description                 simple remove unexpected keys on an object
  * @param  {Object} obj
  * @param  {Array}  uselessKeys
  * @return {Object}
@@ -285,4 +260,34 @@ export const omit = (obj: any, uselessKeys: string[]) => {
       uselessKeys.includes(key) ? { ...prev } : { ...prev, [key]: obj[key] },
     {}
   )
+}
+
+/**
+ * @description                    simplely deep replace keys in target object
+ * @param  {Object} obj            
+ * @param  {Array}  replaceKeysMap should be like => { oldKey1: newKey1, oldkey2: newKey2, ...etc }
+ * @return {Object}
+ */
+export const deepReplaceKey = (obj: any, replaceKeysMap: any): any => {
+  const deep = (obj: any, km: any): any => {
+    return Object.fromEntries(Object.entries(obj).map(([key, value]: [string, any]) => {
+      const resultKey = km[key] || key
+
+      if (isObject(value)) {
+        const newValue = deep(value, km)
+        return [resultKey, newValue]
+      }
+
+      if (isArray(value)) {
+        const arrayLikeObject = deep(value, km)
+        const newValue = Object.keys(arrayLikeObject).map(key => arrayLikeObject[key])
+        return [resultKey, newValue]
+      }
+
+      return [resultKey, value]
+    }))
+  }
+
+  return deep(obj, replaceKeysMap)
+
 }
