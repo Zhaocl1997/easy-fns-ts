@@ -1,5 +1,18 @@
 # Changelog
 
+<a name="1.0.17"></a>
+## 1.0.17 (2021-03-02)
+
+### Miscellaneous
+
+-  1.0.17 [[5cf4c01](https://github.com/Zhaocl1997/easy-fns-ts/commit/5cf4c01e5147e3ff7102d228e402a1e85cf94c7a)]
+-  chore: ignore this [[fb3375d](https://github.com/Zhaocl1997/easy-fns-ts/commit/fb3375dd3d3fb1112821b1601d79668bb1283bb3)]
+-  test: add test cases [[62216e6](https://github.com/Zhaocl1997/easy-fns-ts/commit/62216e619e70888668b1406a1ad216c73174afb0)]
+-  feat(object): add set/get [[12d237b](https://github.com/Zhaocl1997/easy-fns-ts/commit/12d237b58e006a3304cdc77422ebe0e7ae78f2be)]
+-  chore: update package.json [[8888c77](https://github.com/Zhaocl1997/easy-fns-ts/commit/8888c77d011285d7c0205069f423cb8ce91ad20e)]
+-  chore: update changelog [[63c2448](https://github.com/Zhaocl1997/easy-fns-ts/commit/63c24488c08c6bcc61b1e2d301de9379575cfa8a)]
+
+
 <a name="1.0.16"></a>
 ## 1.0.16 (2021-02-18)
 
