@@ -1,12 +1,12 @@
-import { formatTime } from './time';
+import { formatTime } from './time'
 import { isObject, isArray } from './is'
 
 /**
  * @description         simplely checkout target value is empty or not
- * @param  {String} val 
- * @return {Boolean}    
+ * @param  {String} val
+ * @return {Boolean}
  */
-export const isEmpty = (val: any): boolean => {
+export const easyIsEmpty = (val: any): boolean => {
   // null or undefined
   if (val === null || val === undefined) return true
 
@@ -42,11 +42,11 @@ export const isEmpty = (val: any): boolean => {
 
 /**
  * @description       simplely compare two target values is equal or not
- * @param  {String} a 
- * @param  {String} b 
- * @return {Boolean}  
+ * @param  {String} a
+ * @param  {String} b
+ * @return {Boolean}
  */
-export const isEqual = (a: any, b: any): boolean => {
+export const easyIsEqual = (a: any, b: any): boolean => {
   if (a === b) return true
 
   // object
@@ -58,7 +58,7 @@ export const isEqual = (a: any, b: any): boolean => {
     for (let i = 0; i < Object.keys(a).length; i++) {
       const key = Object.keys(a)[i]
       if (Object.prototype.hasOwnProperty.call(a, key)) {
-        if (!isEqual(a[key], b[key])) {
+        if (!easyIsEqual(a[key], b[key])) {
           // key different
           return false
         }
@@ -66,9 +66,9 @@ export const isEqual = (a: any, b: any): boolean => {
     }
   }
   // array
-  else if (isArray(a) && isArray(a) && a.length === b.length) {
+  else if (isArray(a) && isArray(b) && a.length === b.length) {
     for (let i = 0, { length } = a; i < length; i++) {
-      if (!isEqual(a[i], b[i])) {
+      if (!easyIsEqual(a[i], b[i])) {
         // item different
         return false
       }
@@ -81,79 +81,9 @@ export const isEqual = (a: any, b: any): boolean => {
 }
 
 /**
- * @description                    simplely deep clone an object
- * @param  {Object | Array} target 
- * @return {Object | Array}        
- */
-export const deepClone = (target: any): any => {
-  const dp = (t: any): any => {
-    const tObj: Record<string, any> = t.constructor === Array ? [] : {}
-
-    Object.keys(t).forEach((key) => {
-      if (t[key] && isObject(t[key])) {
-        tObj[key] = dp(t[key])
-      } else {
-        tObj[key] = t[key]
-      }
-    })
-
-    return tObj
-  }
-
-  return dp(target)
-}
-
-/**
- * @description                    simplely deep freeze an object
- * @param  {Object | Array} target 
- * @return {Object | Array}        
- */
-export const deepFreeze = (target: any): any => {
-  let prop
-
-  // 首先冻结第一层对象
-  Object.freeze(target)
-
-  Object.keys(target).forEach((key) => {
-    prop = target[key]
-    if (
-      !(
-        !Object.prototype.hasOwnProperty.call(target, key) ||
-        !(isObject(prop)) ||
-        Object.isFrozen(prop)
-      )
-    ) {
-      // 跳过原型链上的属性、基本类型和已冻结的对象
-      return
-    }
-    deepFreeze(prop) // 递归调用
-  })
-}
-
-/**
- * @description                    simplely deep merged two objects
- * @param  {Object | Array} src
- * @param  {Object | Array} target
- * @return {Object | Array}
- */
-export const deepMerge = (src: any = {}, target: any = {}): any => {
-  const origin = deepClone(src)
-
-  Object.keys(target).forEach((key) => {
-    origin[key] =
-      origin[key] && origin[key].toString() === '[object Object]'
-        ? deepMerge(origin[key], target[key])
-        : (origin[key] = target[key])
-  })
-
-  return origin
-}
-
-
-/**
  * @description              count age
- * @param  {String} date 
- * @return {Number}          
+ * @param  {String} date
+ * @return {Number}
  */
 export const countAge = (date: string | Date): number => {
   const formatedDate = formatTime(date)
@@ -203,12 +133,15 @@ export const countAge = (date: string | Date): number => {
  * @param  {Number} delay 延迟时间
  * @return {Function}
  */
-/* export const debounce = (cb: (() => void), delay: number = 500): (() => void) => {
-  let timeoutID
+export const easyDebounce = (
+  cb: () => void,
+  delay: number = 500
+): (() => void) => {
+  let timeoutID: NodeJS.Timeout
 
   function wrapper() {
     const self = this
-    const args = arguments
+    const args: any = arguments
 
     function exec() {
       cb.apply(self, args)
@@ -221,73 +154,41 @@ export const countAge = (date: string | Date): number => {
 
   return wrapper
 }
- */
 
 /**
- * @description                  filter an object by specfic keys
- * @param  {Object}         obj
- * @param  {Array | String} keys string or string array
- * @return {Object}
+ *  整个代码的逻辑十分清晰，一共只有三步：
+ *  1.计算距离最近一次函数执行后经过的时间 elapsed，并清除之前设置的计时器。
+ *  2.如果经过的时间大于设置的时间间隔 delay，那么立即执行函数，并更新最近一次*函数的执行时间。
+ *  3.如果经过的时间小于设置的时间间隔 delay，那么通过 setTimeout 设置一个计数器，让函数在 delay - elapsed 时间后执行。
  */
-export const filterObj = (obj: any, keys: Array<string> | string): any => {
-  const result: any = {}
-  if (Array.isArray(keys)) {
-    Object.keys(obj)
-      .filter((key) => keys.includes(key))
-      .forEach((key) => {
-        result[key] = obj[key]
-      })
-  } else {
-    Object.keys(obj)
-      .filter((key) => key.includes(keys))
-      .forEach((key) => {
-        result[key] = obj[key]
-      })
+// 节流
+// 规定在一个单位时间内，只能触发一次函数
+// 场景：拖拽，缩放，动画
+export const easyThrottle = (
+  cb: () => void,
+  delay: number = 500
+): (() => void) => {
+  let timeoutID: NodeJS.Timeout
+  let lastExec: number = 0
+
+  function wrapper() {
+    const self = this
+    const elapsed = Number(new Date()) - lastExec
+    const args: any = arguments
+
+    function exec() {
+      lastExec = Number(new Date())
+      cb.apply(self, args)
+    }
+
+    clearTimeout(timeoutID)
+
+    if (elapsed > delay) {
+      exec()
+    } else {
+      timeoutID = setTimeout(exec, delay - elapsed)
+    }
   }
 
-  return result
-}
-
-/**
- * @description                 simple remove unexpected keys on an object
- * @param  {Object} obj
- * @param  {Array}  uselessKeys
- * @return {Object}
- */
-export const omit = (obj: any, uselessKeys: string[]) => {
-  return Object.keys(obj).reduce(
-    (prev, key) =>
-      uselessKeys.includes(key) ? { ...prev } : { ...prev, [key]: obj[key] },
-    {}
-  )
-}
-
-/**
- * @description                    simplely deep replace keys in target object
- * @param  {Object} obj            
- * @param  {Array}  replaceKeysMap should be like => { oldKey1: newKey1, oldkey2: newKey2, ...etc }
- * @return {Object}
- */
-export const deepReplaceKey = (obj: any, replaceKeysMap: any): any => {
-  const deep = (obj: any, km: any): any => {
-    return Object.fromEntries(Object.entries(obj).map(([key, value]: [string, any]) => {
-      const resultKey = km[key] || key
-
-      if (isObject(value)) {
-        const newValue = deep(value, km)
-        return [resultKey, newValue]
-      }
-
-      if (isArray(value)) {
-        const arrayLikeObject = deep(value, km)
-        const newValue = Object.keys(arrayLikeObject).map(key => arrayLikeObject[key])
-        return [resultKey, newValue]
-      }
-
-      return [resultKey, value]
-    }))
-  }
-
-  return deep(obj, replaceKeysMap)
-
+  return wrapper
 }

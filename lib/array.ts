@@ -1,24 +1,21 @@
-import { error } from './error';
+import { error } from './error'
 import { getRandomInt } from './math'
 
 /**
  * @description        get random one element in an array
- * @param  {Array} arr 
- * @return {Any}      
+ * @param  {Array} arr
+ * @return {Any}
  */
-export const getRandomElement = (arr: Array<unknown>): unknown =>
+export const getRandomElement = (arr: any[]): void =>
   arr[Math.floor(Math.random() * arr.length)]
 
 /**
  * @description           get random elements in an array
- * @param  {Array}  arr    
- * @param  {Number} count 
- * @return {Array}        
+ * @param  {Array}  arr
+ * @param  {Number} count
+ * @return {Array}
  */
-export const getRandomElements = (
-  arr: Array<unknown>,
-  count: number
-): Array<unknown> => {
+export const getRandomElements = (arr: any[], count: number): any[] => {
   const ccount = count || getRandomInt(1, arr.length - 1)
   const shuffled = arr.slice(0)
   let i = arr.length
@@ -65,7 +62,7 @@ export const curryConcat = (...args: any[]): any =>
 
 /**
  * @description                object array deduplication
- * @param {Array}  arr         
+ * @param {Array}  arr
  * @param {String} uniqueField the field for deduplicate, default is id
  * @return {Array}
  */
@@ -79,11 +76,11 @@ export const objectArrayUnique = <T = any>(arr: T[], key = 'id'): T[] => {
 
 /**
  * @description          find all fulfilled `cb` indexs in an array
- * @param {Array}    arr 
+ * @param {Array}    arr
  * @param {Function} cb  callback function, return value should be boolean
  * @return {Array}       index in original array
  */
-export const findAllIndex = (arr: Array<any>, cb: (item: any) => boolean) => {
+export const findAllIndex = (arr: any[], cb: (item: any) => boolean) => {
   const ret: Array<number> = []
   arr.filter((item, index) => {
     if (cb(item)) {
@@ -95,51 +92,51 @@ export const findAllIndex = (arr: Array<any>, cb: (item: any) => boolean) => {
 
 /**
  * @description        shuffle the array
- * @param {Array}  arr 
- * @return {Array}     
+ * @param {Array}  arr
+ * @return {Array}
  */
-export const shuffle = (arr: Array<any>): Array<any> => {
+export const shuffle = (arr: any[]): any[] => {
   return arr.sort(() => Math.random() - 0.5)
 }
 
 /**
  * @description      intersection
- * @param {Array}  a 
- * @param {Array}  b 
- * @return {Array}   
+ * @param {Array}  a
+ * @param {Array}  b
+ * @return {Array}
  */
-export const intersect = (a: Array<any>, b: Array<any>): Array<any> => {
+export const intersect = (a: any[], b: any[]): any[] => {
   const mySet = new Set(b)
-  return a.filter(v => mySet.has(v))
+  return a.filter((v) => mySet.has(v))
 }
 
 /**
  * @description      except, a - b
- * @param {Array}  a 
- * @param {Array}  b 
- * @return {Array}   
+ * @param {Array}  a
+ * @param {Array}  b
+ * @return {Array}
  */
-export const except = (a: Array<any>, b: Array<any>): Array<any> => {
+export const except = (a: any[], b: any[]): any[] => {
   if (a.length < b.length) {
-    error("Array", "First arr length must be bigger than the second.")
+    error('Array', 'First arr length must be bigger than the second.')
   }
   const mySet = new Set(b)
-  return a.filter(v => !mySet.has(v))
+  return a.filter((v) => !mySet.has(v))
 }
 
 /**
  * @description      complement
- * @param {Array}  a 
- * @param {Array}  b 
- * @return {Array}   
+ * @param {Array}  a
+ * @param {Array}  b
+ * @return {Array}
  */
-export const complement = (a: Array<any>, b: Array<any>): Array<any> => {
+export const complement = (a: any[], b: any[]): any[] => {
   if (a.length < b.length) {
-    error("Array", "First arr length must be bigger than the second.")
+    error('Array', 'First arr length must be bigger than the second.')
   }
 
   const set1 = new Set(a)
   const set2 = new Set(b)
 
-  return [...a.filter(v => !set2.has(v)), ...b.filter(v => !set1.has(v))]
+  return [...a.filter((v) => !set2.has(v)), ...b.filter((v) => !set1.has(v))]
 }

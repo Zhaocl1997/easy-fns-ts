@@ -1,10 +1,10 @@
-import { THEME_TYPE } from './constant'
+import { LogType, THEME_TYPE } from './constant'
 
 /**
  * @description 返回这个样式的颜色值
  * @param {String} type 样式名称 [ primary | success | warning | danger | info ]
  */
-const typeColor = (type = THEME_TYPE.PRIMARY) => {
+const typeColor = (type: string = THEME_TYPE.PRIMARY): string => {
   let color = ''
   switch (type) {
     case THEME_TYPE.PRIMARY:
@@ -30,26 +30,34 @@ const typeColor = (type = THEME_TYPE.PRIMARY) => {
 
 interface textClass {
   text: string
-  type: THEME_TYPE
+  type: LogType
 }
 
 /**
  * @description log colorfully
  */
-const colorful = (textArr: Array<textClass>) => {
+const colorful = (textArr: textClass[]) => {
   console.log(
     `%c${textArr.map((t) => t.text || '').join('%c')}`,
     ...textArr.map((t) => `color: ${typeColor(t.type)};`)
   )
 }
 
+interface capsuleLogType {
+  title: string
+  info: string
+  type?: LogType
+}
+
 /**
-* @description          capsule log
-* @param {String} title title
-* @param {String} info  content
-* @param {String} type  style
-*/
-export const capsuleLog = (title: string, info: string, type = THEME_TYPE.PRIMARY): void => {
+ * @description          capsule log
+ * @param {String} title title
+ * @param {String} info  content
+ * @param {String} type  style
+ */
+export const capsuleLog = (params: capsuleLogType): void => {
+  const { title, info, type = THEME_TYPE.PRIMARY } = params
+
   console.log(
     `%c ${title} %c ${info} %c`,
     'background: #35495E; padding: 1px; border-radius: 3px 0 0 3px; color: #fff;',
@@ -61,7 +69,7 @@ export const capsuleLog = (title: string, info: string, type = THEME_TYPE.PRIMAR
 }
 
 /**
- * @description primary 
+ * @description primary
  */
 export const primaryLog = (text: string) => {
   colorful([{ text, type: THEME_TYPE.PRIMARY }])

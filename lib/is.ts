@@ -1,4 +1,4 @@
-export const isType = (type: string) => (target: string | Window): boolean =>
+export const isType = (type: string) => (target: any): boolean =>
   `[object ${type}]` === Object.prototype.toString.call(target)
 
 export const isNull = isType('Null')
@@ -7,27 +7,27 @@ export const isDate = isType('Date')
 export const isRegExp = isType('RegExp')
 export const isJSON = isType('JSON')
 
-export const isUndefined = (val: string): boolean =>
+export const isUndefined = (val: any): boolean =>
   typeof val === 'undefined' && isType('Undefined')(val)
 
-export const isString = (val: string): boolean =>
+export const isString = (val: any): boolean =>
   typeof val === 'string' && isType('String')(val)
 
-export const isNumber = (val: string): boolean =>
+export const isNumber = (val: any): boolean =>
   typeof val === 'number' && isType('Number')(val)
 
-export const isBoolean = (val: string): boolean =>
+export const isBoolean = (val: any): boolean =>
   typeof val === 'boolean' && isType('Boolean')(val)
 
-export const isObject = (val: string): boolean =>
+export const isObject = (val: any): boolean =>
   typeof val === 'object' && isType('Object')(val)
 
-export const isFunction = (val: string): boolean =>
+export const isFunction = (val: any): boolean =>
   typeof val === 'function' && isType('Function')(val)
 
-export const isClient = typeof window !== 'undefined'
+export const isClient = (): boolean => typeof window !== 'undefined'
 
-export const isServer = typeof window === 'undefined'
+export const isServer = (): boolean => typeof window === 'undefined'
 
-export const isWindow =
+export const isWindow = (): boolean =>
   typeof window !== 'undefined' && isType('Window')(window)

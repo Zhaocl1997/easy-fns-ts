@@ -36,7 +36,7 @@ export const addParams = (url: string, key: string, value: string): string => {
  * @param  {String} url 
  * @return {Object}     
  */
-export const parseParams = (url: string): unknown => {
+export const parseParams = (url: string): any => {
   const paramsStr = /.+\?(.+)$/.exec(url)![1]
   const paramsArr = paramsStr.split('&')
   const paramsObj: any = {}

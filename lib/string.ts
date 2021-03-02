@@ -5,27 +5,27 @@ function selfEval(fn: string) {
 
 /**
  * @description          line to camel
- * @param  {String} str  
+ * @param  {String} str
  * @param  {String} type default `-`
  * @return {String}
  */
-export const line2Camel = (str: string, type = '-'): string =>
+export const line2Camel = (str: string, type: string = '-'): string =>
   str.replace(selfEval(`/\\${type}(\\w)/g`), (all, letter) =>
     letter.toUpperCase()
   )
 
 /**
  * @description          camel to line
- * @param  {String} str  
+ * @param  {String} str
  * @param  {String} type default `-`
  * @return {String}
  */
-export const camel2Line = (str: string, type = '-'): string =>
+export const camel2Line = (str: string, type: string = '-'): string =>
   str.replace(/([A-Z])/g, `${type}$1`).toLowerCase()
 
 /**
  * @description         remove the space aside
- * @param  {String} str 
+ * @param  {String} str
  * @return {String}
  */
 export const trimSpaceAside = (str: string): string =>
@@ -33,7 +33,7 @@ export const trimSpaceAside = (str: string): string =>
 
 /**
  * @description         check for the strength of the string
- * @param  {String} str 
+ * @param  {String} str
  * @return {Number}     1 to 4, 4 means strongest
  */
 export const checkStrStrong = (str: string): number => {
@@ -62,12 +62,12 @@ export const checkStrStrong = (str: string): number => {
 /**
  * @author Zhaocl1997   (https://github.com/Zhaocl1997)
  * @description         forced remove some unexpected characters
- * @param  {String} str 
+ * @param  {String} str
  * @param  {Array}  arr unexpected string array
- * @return {String}     
+ * @return {String}
  * @example             clearIllegalChars("a|b/c", ["|", "/"]) => "abc"
  */
-export const clearIllegalChars = (str: string, arr: Array<string>): string => {
+export const clearIllegalChars = (str: string, arr: string[]): string => {
   let newStr = str
   for (let i = 0; i < arr.length; i++) {
     if (str.indexOf(arr[i]) !== -1) {
@@ -90,10 +90,12 @@ enum AllowedInputTypeEnum {
   CHINESE = 'chinese',
 }
 
+type AllowedInputType = 'number' | 'letter' | 'chinese'
+
 /**
  * @author Zhaocl1997    (https://github.com/Zhaocl1997)
  * @description          limit the input type
- * @param  {String} str  
+ * @param  {String} str
  * @param  {String} type ["number", "letter", "chinese"] only support for one in the array
  * @return {String}
  * @example              clearUnexpectedChars("123abc啊啊啊", "number") => "123"
@@ -102,7 +104,7 @@ enum AllowedInputTypeEnum {
  */
 export const clearUnexpectedChars = (
   str: string,
-  type: AllowedInputTypeEnum = AllowedInputTypeEnum.NUMBER
+  type: AllowedInputType = AllowedInputTypeEnum.NUMBER
 ): string => {
   const reverseRegex = (v: string) => `/${v}/g`
 
@@ -117,8 +119,8 @@ export const clearUnexpectedChars = (
 
 /**
  * @description         upper first character
- * @param  {String} arr 
- * @return {String}     
+ * @param  {String} arr
+ * @return {String}
  */
 export const upperFirst = (str: string): string => {
   return str.substr(0, 1).toLocaleUpperCase() + str.substr(1, str.length)
@@ -126,8 +128,8 @@ export const upperFirst = (str: string): string => {
 
 /**
  * @description         lower first character
- * @param  {String} arr 
- * @return {String}     
+ * @param  {String} arr
+ * @return {String}
  */
 export const lowerFirst = (str: string): string => {
   return str.substr(0, 1).toLocaleLowerCase() + str.substr(1, str.length)
