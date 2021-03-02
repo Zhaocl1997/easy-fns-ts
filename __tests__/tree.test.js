@@ -1,4 +1,4 @@
-const { arrToTree, treeToArr, findNode, formatTree, orderTree, deepClone } = require('../dist/lib')
+const { arrToTree, treeToArr, findNode, formatTree, orderTree, easyDeepClone } = require('../dist/lib')
 
 describe('tree utils', () => {
   const arr = [
@@ -84,8 +84,8 @@ describe('tree utils', () => {
     },
   ]
 
-  const dcArr = deepClone(arr)
-  const dcTree = deepClone(tree)
+  const dcArr = easyDeepClone(arr)
+  const dcTree = easyDeepClone(tree)
 
   test('array to tree', () => {
     expect(arrToTree(arr, { pid: 'parentId' })).toEqual(dcTree)

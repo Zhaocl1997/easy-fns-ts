@@ -1,42 +1,36 @@
 const {
-  isEmpty,
-  isEqual,
-
-  deepClone,
-  deepMerge,
-  deepReplaceKey,
+  easyIsEmpty,
+  easyIsEqual,
 
   countAge,
-  filterObj,
-  omit,
 } = require('../dist/lib')
 
 describe('check value is valid', () => {
   test('check value is empty(easy way)', () => {
-    expect(isEmpty('')).toBeTruthy()
-    expect(isEmpty(null)).toBeTruthy()
-    expect(isEmpty(undefined)).toBeTruthy()
-    expect(isEmpty(NaN)).toBeTruthy()
+    expect(easyIsEmpty('')).toBeTruthy()
+    expect(easyIsEmpty(null)).toBeTruthy()
+    expect(easyIsEmpty(undefined)).toBeTruthy()
+    expect(easyIsEmpty(NaN)).toBeTruthy()
 
-    expect(isEmpty({})).toBeTruthy()
-    expect(isEmpty([])).toBeTruthy()
+    expect(easyIsEmpty({})).toBeTruthy()
+    expect(easyIsEmpty([])).toBeTruthy()
 
-    expect(isEmpty(new Map())).toBeTruthy()
-    expect(isEmpty(new Set())).toBeTruthy()
+    expect(easyIsEmpty(new Map())).toBeTruthy()
+    expect(easyIsEmpty(new Set())).toBeTruthy()
   })
 
   test('check two values is equal(easy way)', () => {
     expect(
-      isEqual({ name: 'jack', age: 23 }, { name: 'jack', age: 23 })
+      easyIsEqual({ name: 'jack', age: 23 }, { name: 'jack', age: 23 })
     ).toBeTruthy()
     expect(
-      isEqual([{ name: 'jack', age: 23 }], [{ name: 'jack', age: 23 }])
+      easyIsEqual([{ name: 'jack', age: 23 }], [{ name: 'jack', age: 23 }])
     ).toBeTruthy()
 
-    expect(isEqual([123, '123', true], [123, '123', true])).toBeTruthy()
+    expect(easyIsEqual([123, '123', true], [123, '123', true])).toBeTruthy()
 
     expect(
-      isEqual(
+      easyIsEqual(
         {
           name: 'jack',
           hobbies: ['jogging', 'swimming'],
@@ -81,124 +75,6 @@ describe('check value is valid', () => {
         }
       )
     ).toBeTruthy()
-  })
-})
-
-describe('object operation', () => {
-  test('deep clone target(easy way)', () => {
-    const objTarget = {
-      name: 'jack',
-      age: 23,
-      marriage: false,
-      hobbies: ['jogging'],
-      family: { father: { name: 'ken', age: 45 } },
-    }
-    expect(deepClone(objTarget)).toEqual({
-      name: 'jack',
-      age: 23,
-      marriage: false,
-      hobbies: ['jogging'],
-      family: { father: { name: 'ken', age: 45 } },
-    })
-  })
-
-  test('deep merge two values(easy way)', () => {
-    const src = {
-      name: 'jack',
-      age: 23,
-      marriage: false,
-      hobbies: ['jogging', 'running'],
-    }
-    const target = {
-      name: 'lucy',
-      age: 22,
-      marriage: false,
-      hobbies: ['jogging', 'writing'],
-    }
-
-    expect(deepMerge(src, target)).toEqual({
-      name: 'lucy',
-      age: 22,
-      marriage: false,
-      hobbies: ['jogging', 'writing'],
-    })
-  })
-
-  test('object filter by field', () => {
-    const objTarget = {
-      name: 'jack',
-      age: 23,
-      marriage: false,
-      hobbies: ['jogging'],
-      family: { father: { name: 'ken', age: 45 } },
-    }
-    expect(filterObj(objTarget, ['name'])).toEqual({ name: 'jack' })
-    expect(filterObj(objTarget, 'm')).toEqual({
-      name: 'jack',
-      marriage: false,
-      family: { father: { name: 'ken', age: 45 } },
-    })
-  })
-
-  test('remove useless key on an object', () => {
-    const objTarget = {
-      name: 'jack',
-      age: 23,
-      marriage: false,
-      hobbies: ['jogging'],
-    }
-    expect(omit(objTarget, ['age', 'marriage'])).toEqual({
-      name: 'jack',
-      hobbies: ['jogging'],
-    })
-  })
-
-  test('deep replace key into new one', () => {
-    const target = {
-      name: 'jack',
-      age: 21,
-      family: [
-        {
-          name: 'lucy',
-          age: 23
-        },
-        {
-          name: 'tom',
-          age: 16
-        }
-      ],
-      mom: {
-        name: 'sue',
-        age: 46
-      },
-      dad: {
-        name: 'trump',
-        age: 48
-      }
-    }
-
-    expect(deepReplaceKey(target, { name: 'nameNew', age: 'ageNew' })).toEqual({
-      nameNew: 'jack',
-      ageNew: 21,
-      family: [
-        {
-          nameNew: 'lucy',
-          ageNew: 23
-        },
-        {
-          nameNew: 'tom',
-          ageNew: 16
-        }
-      ],
-      mom: {
-        nameNew: 'sue',
-        ageNew: 46
-      },
-      dad: {
-        nameNew: 'trump',
-        ageNew: 48
-      }
-    })
   })
 })
 
