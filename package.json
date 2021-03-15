@@ -18,7 +18,7 @@
     "test": "jest",
     "test:cover": "jest --coverage",
     "prerelease": "npm run build:commonjs && npm run build:esm",
-    "release": "npm run set:npm && npm version patch && npm publish",
+    "release": "npm version patch && npm publish",
     "postrelease": "git push",
     "build:commonjs": "tsc --outDir ./dist/lib",
     "build:esm": "tsc -m es2020 --outDir ./dist/esm",
