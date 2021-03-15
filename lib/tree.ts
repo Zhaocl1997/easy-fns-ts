@@ -95,9 +95,9 @@ const treeNodeOrder = (
 
 /**
  * @description                   format tree into specfic structure
- * @param  {Array}  treeData      
+ * @param  {Array}  treeData
  * @param  {FormatTreeConfig} opt include format fn and children field
- * @return {Array}                
+ * @return {Array}
  */
 export function formatTree<T = any>(treeData: T[], opt: FormatTreeConfig): T[] {
   return treeData.map((node) => treeNodeFormat(node, opt))
@@ -105,18 +105,18 @@ export function formatTree<T = any>(treeData: T[], opt: FormatTreeConfig): T[] {
 
 /**
  * @description                  order tree by specfic field
- * @param  {Array}  treeData     
+ * @param  {Array}  treeData
  * @param  {OrderTreeConfig} opt include order field and children field
- * @return {Array}               
+ * @return {Array}
  */
 export function orderTree<T = any>(treeData: T[], opt: OrderTreeConfig): T[] {
   return treeData.map((node) => treeNodeOrder(node, opt))
 }
 
 /**
- * @description            arr to tree 
- * @param  {Array}  arr    
- * @param  {Object} config 
+ * @description            arr to tree
+ * @param  {Array}  arr
+ * @param  {Object} config
  * @return {Array}
  */
 export function arrToTree<T = any>(
@@ -142,8 +142,8 @@ export function arrToTree<T = any>(
 
 /**
  * @description            flat tree to arr
- * @param  {Array}  tree   
- * @param  {Object} config 
+ * @param  {Array}  tree
+ * @param  {Object} config
  * @return {Array}
  */
 export function treeToArr<T = any>(
@@ -169,9 +169,9 @@ export function treeToArr<T = any>(
 
 /**
  * @description            find tree node by callback function
- * @param  {Array}  tree   
+ * @param  {Array}  tree
  * @param  {Array}  func   callback function
- * @param  {Object} config 
+ * @param  {Object} config
  * @return {Array}
  */
 export function findNode<T = any>(
@@ -189,5 +189,39 @@ export function findNode<T = any>(
     node[children] && result.push(...node[children])
   }
 
+  return null
+}
+
+/**
+ * @description            find node path
+ * @param  {Array}  tree
+ * @param  {Array}  func   callback function
+ * @param  {Object} config
+ * @return {Array}
+ */
+export function findPath<T = any>(
+  tree: any,
+  func: (p: any) => any,
+  config: Partial<TreeHelperConfig> = {}
+): T | T[] | null {
+  config = getConfig(config)
+  const path: T[] = []
+  const list = [...tree]
+  const visitedSet = new Set()
+  const { children } = config
+  while (list.length) {
+    const node = list[0]
+    if (visitedSet.has(node)) {
+      path.pop()
+      list.shift()
+    } else {
+      visitedSet.add(node)
+      node[children!] && list.unshift(...node[children!])
+      path.push(node)
+      if (func(node)) {
+        return path
+      }
+    }
+  }
   return null
 }

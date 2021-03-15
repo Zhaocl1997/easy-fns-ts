@@ -1,4 +1,12 @@
-const { arrToTree, treeToArr, findNode, formatTree, orderTree, easyDeepClone } = require('../dist/lib')
+const {
+  arrToTree,
+  treeToArr,
+  findNode,
+  formatTree,
+  orderTree,
+  findPath,
+  easyDeepClone,
+} = require('../dist/lib')
 
 describe('tree utils', () => {
   const arr = [
@@ -164,13 +172,13 @@ describe('tree utils', () => {
             childrens: [
               {
                 id: 2,
-                pid: 1
+                pid: 1,
               },
               {
                 id: 3,
-                pid: 1
-              }
-            ]
+                pid: 1,
+              },
+            ],
           },
           {
             id: 4,
@@ -178,16 +186,16 @@ describe('tree utils', () => {
             childrens: [
               {
                 id: 5,
-                pid: 4
+                pid: 4,
               },
               {
                 id: 6,
-                pid: 4
-              }
-            ]
-          }
-        ]
-      }
+                pid: 4,
+              },
+            ],
+          },
+        ],
+      },
     ]
 
     const result = [
@@ -200,13 +208,13 @@ describe('tree utils', () => {
             childrens: [
               {
                 id: 2,
-                parentId: 1
+                parentId: 1,
               },
               {
                 id: 3,
-                parentId: 1
-              }
-            ]
+                parentId: 1,
+              },
+            ],
           },
           {
             id: 4,
@@ -214,27 +222,29 @@ describe('tree utils', () => {
             childrens: [
               {
                 id: 5,
-                parentId: 4
+                parentId: 4,
               },
               {
                 id: 6,
-                parentId: 4
-              }
-            ]
-          }
-        ]
-      }
+                parentId: 4,
+              },
+            ],
+          },
+        ],
+      },
     ]
 
-    expect(formatTree(target, {
-      format: node => {
-        return {
-          id: node.id,
-          parentId: node.pid
-        }
-      },
-      children: 'childrens'
-    })).toEqual(result)
+    expect(
+      formatTree(target, {
+        format: (node) => {
+          return {
+            id: node.id,
+            parentId: node.pid,
+          }
+        },
+        children: 'childrens',
+      })
+    ).toEqual(result)
   })
 
   test('order tree by specific field', () => {
@@ -250,14 +260,14 @@ describe('tree utils', () => {
               {
                 id: 2,
                 pid: 1,
-                customOrder: 2
+                customOrder: 2,
               },
               {
                 id: 3,
                 pid: 1,
-                customOrder: 1
-              }
-            ]
+                customOrder: 1,
+              },
+            ],
           },
           {
             id: 4,
@@ -267,16 +277,17 @@ describe('tree utils', () => {
               {
                 id: 5,
                 pid: 4,
-                customOrder: 2
+                customOrder: 2,
               },
               {
                 id: 6,
                 pid: 4,
-                customOrder: 1
-              }
-            ]
-          }]
-      }
+                customOrder: 1,
+              },
+            ],
+          },
+        ],
+      },
     ]
 
     const result = [
@@ -291,15 +302,14 @@ describe('tree utils', () => {
               {
                 id: 6,
                 pid: 4,
-                customOrder: 1
+                customOrder: 1,
               },
               {
                 id: 5,
                 pid: 4,
-                customOrder: 2
+                customOrder: 2,
               },
-
-            ]
+            ],
           },
           {
             id: 1,
@@ -309,24 +319,159 @@ describe('tree utils', () => {
               {
                 id: 3,
                 pid: 1,
-                customOrder: 1
+                customOrder: 1,
               },
               {
                 id: 2,
                 pid: 1,
-                customOrder: 2
+                customOrder: 2,
               },
-
-            ]
-          }
-        ]
+            ],
+          },
+        ],
       },
-
     ]
 
-    expect(orderTree(target, {
-      order: 'customOrder',
-      children: 'childrens'
-    })).toEqual(result)
+    expect(
+      orderTree(target, {
+        order: 'customOrder',
+        children: 'childrens',
+      })
+    ).toEqual(result)
+  })
+
+  test('find node path through callback', () => {
+    const target = [
+      {
+        id: 1,
+        name: '1',
+        children: [
+          {
+            id: 2,
+            name: '1-1',
+            parentId: 1,
+            children: [
+              {
+                id: 3,
+                name: '1-1-1',
+                parentId: 2,
+                children: [
+                  {
+                    id: 6,
+                    name: '1-1-1-1',
+                    parentId: 3,
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 4,
+            name: '1-2',
+            parentId: 1,
+            children: [
+              {
+                id: 5,
+                name: '1-2-2',
+                parentId: 4,
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 7,
+        name: '2',
+        children: [],
+      },
+    ]
+
+    const result = [
+      {
+        id: 1,
+        name: '1',
+        children: [
+          {
+            id: 2,
+            name: '1-1',
+            parentId: 1,
+            children: [
+              {
+                id: 3,
+                name: '1-1-1',
+                parentId: 2,
+                children: [
+                  {
+                    id: 6,
+                    name: '1-1-1-1',
+                    parentId: 3,
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 4,
+            name: '1-2',
+            parentId: 1,
+            children: [
+              {
+                id: 5,
+                name: '1-2-2',
+                parentId: 4,
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 2,
+        name: '1-1',
+        parentId: 1,
+        children: [
+          {
+            id: 3,
+            name: '1-1-1',
+            parentId: 2,
+            children: [
+              {
+                id: 6,
+                name: '1-1-1-1',
+                parentId: 3,
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+
+      {
+        id: 3,
+        name: '1-1-1',
+        parentId: 2,
+        children: [
+          {
+            id: 6,
+            name: '1-1-1-1',
+            parentId: 3,
+            children: [],
+          },
+        ],
+      },
+
+      {
+        id: 6,
+        name: '1-1-1-1',
+        parentId: 3,
+        children: [],
+      },
+    ]
+
+    expect(findPath(target, (node) => node.id === 6)).toEqual(result)
   })
 })
