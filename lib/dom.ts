@@ -22,7 +22,8 @@ export const toggleClass = (
  */
 export const hasClass = (ele: HTMLElement, cls: string): boolean => {
   if (!ele || !cls) return false
-  if (cls.indexOf(' ') !== -1) error('dom', 'className should not contain space.')
+  if (cls.indexOf(' ') !== -1)
+    error('dom', 'className should not contain space.')
   if (ele.classList) {
     return ele.classList.contains(cls)
   }
@@ -80,35 +81,35 @@ export const removeClass = (ele: HTMLElement, cls: string): void => {
 }
 
 /**
- * @description add event listener
+ * @description Add event listener
  * @param {HTMLElement} element
  * @param {String} event
  * @param {Function} handler
  */
-export const on = function (
+export const on = <K extends keyof WindowEventMap>(
   element: HTMLElement | Document | Window,
-  event: string,
+  event: K,
   handler: EventListenerOrEventListenerObject,
-  useCapture = false
-): void {
+  options?: boolean | AddEventListenerOptions | undefined
+): void => {
   if (element && event && handler) {
-    element.addEventListener(event, handler, useCapture)
+    element.addEventListener(event, handler, options)
   }
 }
 
 /**
- * @description remove event listener
+ * @description Remove event listener
  * @param {HTMLElement} element
- * @param {string} event
+ * @param {String} event
  * @param {Function} handler
  */
-export const off = function (
+export const off = <K extends keyof WindowEventMap>(
   element: HTMLElement | Document | Window,
-  event: string,
+  event: K,
   handler: EventListenerOrEventListenerObject,
-  useCapture = false
-): void {
+  options?: boolean | AddEventListenerOptions | undefined
+): void => {
   if (element && event && handler) {
-    element.removeEventListener(event, handler, useCapture)
+    element.removeEventListener(event, handler, options)
   }
 }

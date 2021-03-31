@@ -1,4 +1,3 @@
-import { error } from './error'
 import { getRandomInt } from './math'
 
 /**
@@ -117,9 +116,6 @@ export const intersect = (a: any[], b: any[]): any[] => {
  * @return {Array}
  */
 export const except = (a: any[], b: any[]): any[] => {
-  if (a.length < b.length) {
-    error('Array', 'First arr length must be bigger than the second.')
-  }
   const mySet = new Set(b)
   return a.filter((v) => !mySet.has(v))
 }
@@ -131,10 +127,6 @@ export const except = (a: any[], b: any[]): any[] => {
  * @return {Array}
  */
 export const complement = (a: any[], b: any[]): any[] => {
-  if (a.length < b.length) {
-    error('Array', 'First arr length must be bigger than the second.')
-  }
-
   const set1 = new Set(a)
   const set2 = new Set(b)
 
