@@ -21,7 +21,8 @@ module.exports = {
             'revert',
             'add',
             'minus',
-            'del'
+            'del',
+            'types'
         ]],
         // <type> 不能为空
         'type-empty': [2, 'never'],
