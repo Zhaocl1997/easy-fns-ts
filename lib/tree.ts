@@ -163,7 +163,7 @@ export const treeToArr = <T>(
 export const findNode = <T>(
   tree: TreeNode<T>[],
   func: (node: T) => boolean,
-  config: NormalTreeConfig
+  config?: NormalTreeConfig
 ): T | null => {
   const conf = getConfig(config)
   const { children } = conf
@@ -182,7 +182,7 @@ export const findNode = <T>(
 export const findPath = <T>(
   tree: TreeNode<T>[],
   func: (node: T) => boolean,
-  config: NormalTreeConfig
+  config?: NormalTreeConfig
 ): T | T[] | null => {
   const conf = getConfig(config)
   const { children } = conf
