@@ -1,166 +1,156 @@
-interface TreeHelperConfig {
-  id: string
-  pid: string
+
+interface TreeNodeConfig<T = any, K = T> {
+  id: string | number
+  pid: string | number
   children: string
+  order: string | number
+  format?: (node: T) => K
 }
 
-interface FormatTreeConfig {
-  format: any
-  children?: string
-}
+type NormalTreeConfig = Partial<Omit<TreeNodeConfig, 'order' | 'format'>>
 
-interface OrderTreeConfig {
-  order?: string
-  children?: string
-}
+type OrderTreeConfig = Partial<Pick<TreeNodeConfig, 'order' | 'children'>>
+
+type ForMatTreeConfig = Partial<Pick<TreeNodeConfig, 'format' | 'children'>>
+
+export type TreeNode<T> = T & { children?: TreeNode<T>[] };
 
 /**
  * @description default tree config
  */
-const DEFAULT_CONFIG: TreeHelperConfig = {
+const DEFAULT_CONFIG: TreeNodeConfig = {
   id: 'id',
   pid: 'pid',
   children: 'children',
+  order: 'order',
+  format: (node) => node
 }
 
 /**
  * @description get merged tree config
  */
-const getConfig = (config: Partial<TreeHelperConfig>) => ({
+const getConfig = (config?: Partial<TreeNodeConfig>) => ({
   ...DEFAULT_CONFIG,
   ...config,
 })
 
 /**
- * @description sort by order field
+ * @description compare order
  */
-const compare = (order: string) => (a: any, b: any) => a[order] - b[order]
+const compare = <T>(order: string | number) => (a: T, b: T) => a[order] - b[order]
 
 /**
- * @description Recursion format
+ * @description arr to tree
  */
-const treeNodeFormat = (
-  data: any,
-  { format, children = 'children' }: FormatTreeConfig = {
-    format: (i: any) => i,
+export const arrToTree = <T>(
+  arr: T[],
+  config?: NormalTreeConfig
+): TreeNode<T>[] => {
+  const conf = getConfig(config)
+  const { id, pid, children } = conf
+
+  const nodeMap = new Map<string, T>()
+  const result: TreeNode<T>[] = []
+
+  for (const node of arr) {
+    node[children] = node[children] || []
+    nodeMap.set(node[id], node)
   }
-) => {
-  const hasChild = Array.isArray(data[children]) && data[children].length > 0
-  const formattedData = format(data) || {}
-  if (hasChild) {
-    return {
-      ...formattedData,
-      [children]: data[children].map((i: number) =>
-        treeNodeFormat(i, {
-          children,
-          format,
-        })
-      ),
-    }
-  } else {
-    return {
-      ...formattedData,
-    }
+
+  for (const node of arr) {
+    const parent = nodeMap.get(node[pid])
+      ; (parent ? parent[children] : result).push(node)
   }
+
+  return result
 }
 
 /**
- * @description Recursion order
+ * @description order tree core
  */
-const treeNodeOrder = (
-  data: any,
-  { order = 'order', children = 'children' }: OrderTreeConfig = {}
+const treeNodeOrder = <T>(
+  data: TreeNode<T>,
+  config?: OrderTreeConfig
 ) => {
+  const conf = getConfig(config)
+  const { order, children } = conf
+
   data[children] = data[children]
     ? data[children].sort(compare(order))
     : data[children]
 
   const hasChild = Array.isArray(data[children]) && data[children].length > 0
-  if (hasChild) {
-    return {
+
+  return hasChild
+    ? {
       ...data,
-      [children]: data[children].map((i: number) =>
+      [children]: data[children].map((i: T) =>
         treeNodeOrder(i, {
           order,
           children,
         })
       ),
     }
-  } else {
-    return {
-      ...data,
+    : { ...data, }
+}
+
+/**
+ * @description format tree core
+ */
+const treeNodeFormat = <T, K = T>(
+  data: TreeNode<T>,
+  config?: ForMatTreeConfig
+) => {
+  const conf = getConfig(config)
+  const { format, children } = conf
+
+  const hasChild = Array.isArray(data[children]) && data[children].length > 0
+  const formattedData = format!(data) || {}
+
+  return hasChild
+    ? {
+      ...formattedData,
+      [children]: data[children].map((i: T): K[] =>
+        treeNodeFormat<T, K>(i, {
+          children,
+          format,
+        })
+      ),
     }
-  }
+    : { ...formattedData }
 }
 
 /**
- * @description                   format tree into specfic structure
- * @param  {Array}  treeData
- * @param  {FormatTreeConfig} opt include format fn and children field
- * @return {Array}
+ * @description order tree
  */
-export function formatTree<T = any>(treeData: T[], opt: FormatTreeConfig): T[] {
-  return treeData.map((node) => treeNodeFormat(node, opt))
-}
+export const orderTree = <T>(treeData: TreeNode<T>[], opt?: OrderTreeConfig) =>
+  treeData.map((node) => treeNodeOrder<T>(node, opt))
 
 /**
- * @description                  order tree by specfic field
- * @param  {Array}  treeData
- * @param  {OrderTreeConfig} opt include order field and children field
- * @return {Array}
+ * @description format tree
  */
-export function orderTree<T = any>(treeData: T[], opt: OrderTreeConfig): T[] {
-  return treeData.map((node) => treeNodeOrder(node, opt))
-}
+export const formatTree = <T>(treeData: TreeNode<T>[], opt?: ForMatTreeConfig) =>
+  treeData.map((node) => treeNodeFormat<T>(node, opt))
+
 
 /**
- * @description            arr to tree
- * @param  {Array}  arr
- * @param  {Object} config
- * @return {Array}
+ * @description flat tree to arr            
  */
-export function arrToTree<T = any>(
-  arr: any[],
-  config: Partial<TreeHelperConfig> = {}
-): T[] {
-  const conf = getConfig(config) as TreeHelperConfig
-  const { id, pid, children } = conf
-
-  const nodeMap = new Map()
-  const result: T[] = []
-
-  for (const node of arr) {
-    node[children] = node[children] || []
-    nodeMap.set(node[id], node)
-  }
-  for (const node of arr) {
-    const parent = nodeMap.get(node[pid])
-    ;(parent ? parent.children : result).push(node)
-  }
-  return result
-}
-
-/**
- * @description            flat tree to arr
- * @param  {Array}  tree
- * @param  {Object} config
- * @return {Array}
- */
-export function treeToArr<T = any>(
-  tree: any,
-  config: Partial<TreeHelperConfig> = {}
-): T {
-  const conf = getConfig(config) as TreeHelperConfig
+export const treeToArr = <T>(
+  tree: TreeNode<T>[],
+  config?: NormalTreeConfig
+): T[] => {
+  const conf = getConfig(config)
   const { children } = conf
 
-  const result: any = [...tree]
+  const result: T[] = [...tree]
 
   for (let i = 0; i < result.length; i++) {
     if (!result[i][children]) continue
     result.splice(i + 1, 0, ...result[i][children])
   }
 
-  result.forEach((element: any) => {
+  result.forEach((element: T) => {
     delete element[children]
   })
 
@@ -168,58 +158,49 @@ export function treeToArr<T = any>(
 }
 
 /**
- * @description            find tree node by callback function
- * @param  {Array}  tree
- * @param  {Array}  func   callback function
- * @param  {Object} config
- * @return {Array}
+ * @description find tree node by callback function
  */
-export function findNode<T = any>(
-  tree: any,
-  func: any,
-  config: Partial<TreeHelperConfig> = {}
-): T | null {
-  const conf = getConfig(config) as TreeHelperConfig
+export const findNode = <T>(
+  tree: TreeNode<T>[],
+  func: (node: T) => boolean,
+  config: NormalTreeConfig
+): T | null => {
+  const conf = getConfig(config)
   const { children } = conf
 
-  const result: any = [...tree]
-
-  for (const node of result) {
+  for (const node of tree) {
     if (func(node)) return node
-    node[children] && result.push(...node[children])
+    node[children] && tree.push(...node[children])
   }
 
   return null
 }
 
 /**
- * @description            find node path
- * @param  {Array}  tree
- * @param  {Array}  func   callback function
- * @param  {Object} config
- * @return {Array}
+ * @description find node path
  */
-export function findPath<T = any>(
-  tree: any,
-  func: (p: any) => any,
-  config: Partial<TreeHelperConfig> = {}
-): T | T[] | null {
-  config = getConfig(config)
-  const path: T[] = []
-  const list = [...tree]
-  const visitedSet = new Set()
-  const { children } = config
-  while (list.length) {
-    const node = list[0]
+export const findPath = <T>(
+  tree: TreeNode<T>[],
+  func: (node: T) => boolean,
+  config: NormalTreeConfig
+): T | T[] | null => {
+  const conf = getConfig(config)
+  const { children } = conf
+
+  const result: T[] = []
+  const visitedSet = new Set<T>()
+
+  while (tree.length) {
+    const node = tree[0]
     if (visitedSet.has(node)) {
-      path.pop()
-      list.shift()
+      result.pop()
+      tree.shift()
     } else {
       visitedSet.add(node)
-      node[children!] && list.unshift(...node[children!])
-      path.push(node)
+      node[children!] && tree.unshift(...node[children!])
+      result.push(node)
       if (func(node)) {
-        return path
+        return result
       }
     }
   }
