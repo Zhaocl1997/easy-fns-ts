@@ -167,6 +167,6 @@ export const easyDeepGet = (
     (!isArray(path)
       ? path.replace(/\[/g, '.').replace(/\]/g, '').split('.')
       : path
-    ).reduce((o: any, k: any) => (o || {})[k], obj) || defaultValue
+    ).reduce((o: any, k: any) => (o || {})[k], obj) ?? defaultValue
   )
 }
