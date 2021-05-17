@@ -1,3 +1,4 @@
+import { easyDeepClone } from "./object";
 
 interface TreeNodeConfig<T = any, K = T> {
   id: string | number
@@ -184,20 +185,21 @@ export const findPath = <T>(
   func: (node: T) => boolean,
   config?: NormalTreeConfig
 ): T | T[] | null => {
+  const treeData = easyDeepClone(tree)
   const conf = getConfig(config)
   const { children } = conf
 
   const result: T[] = []
   const visitedSet = new Set<T>()
 
-  while (tree.length) {
-    const node = tree[0]
+  while (treeData.length) {
+    const node = treeData[0]
     if (visitedSet.has(node)) {
       result.pop()
-      tree.shift()
+      treeData.shift()
     } else {
       visitedSet.add(node)
-      node[children!] && tree.unshift(...node[children!])
+      node[children!] && treeData.unshift(...node[children!])
       result.push(node)
       if (func(node)) {
         return result
