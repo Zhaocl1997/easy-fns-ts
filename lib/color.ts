@@ -1,4 +1,4 @@
-import { error } from './error';
+import { error } from './error'
 /**
  * @description             hex to rgb
  * @param  {String} hex
@@ -30,8 +30,8 @@ export const rgbToHex = (rgb: string): string => {
 
 /**
  * @description             percent to rgb
- * @param  {Number} percent 
- * @return {String}         
+ * @param  {Number} percent
+ * @return {String}
  */
 export const percentToRgb = (percent: number): string => {
   if (percent > 100 || percent < 0) {

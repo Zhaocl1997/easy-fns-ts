@@ -25,11 +25,13 @@ module.exports = {
     'no-restricted-syntax': 0,
     'no-use-before-define': 0,
     'no-unused-expressions': 0,
+    'prefer-rest-params': 0,
     
     '@typescript-eslint/no-shadow': 0,
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
     '@typescript-eslint/no-unused-vars': 0,
-    '@typescript-eslint/explicit-module-boundary-types': 0
+    '@typescript-eslint/explicit-module-boundary-types': 0,
+    '@typescript-eslint/no-this-alias': 0
   }
 }

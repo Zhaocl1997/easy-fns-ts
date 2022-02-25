@@ -1,6 +1,6 @@
 /**
  * @description         add a timestamp to a url
- * @param  {String} url 
+ * @param  {String} url
  * @return {String}
  */
 export const addTimeStamp = (url: string): string => {
@@ -16,9 +16,9 @@ export const addTimeStamp = (url: string): string => {
 
 /**
  * @description           add params to a url
- * @param  {String} url   
- * @param  {String} key   
- * @param  {String} value 
+ * @param  {String} url
+ * @param  {String} key
+ * @param  {String} value
  * @return {String}
  */
 export const addParams = (url: string, key: string, value: string): string => {
@@ -33,8 +33,8 @@ export const addParams = (url: string, key: string, value: string): string => {
 
 /**
  * @description         extract url params into object
- * @param  {String} url 
- * @return {Object}     
+ * @param  {String} url
+ * @return {Object}
  */
 export const parseParams = (url: string): any => {
   const paramsStr = /.+\?(.+)$/.exec(url)![1]

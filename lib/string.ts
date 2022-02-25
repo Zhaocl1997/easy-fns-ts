@@ -9,7 +9,7 @@ function selfEval(fn: string) {
  * @param  {String} type default `-`
  * @return {String}
  */
-export const line2Camel = (str: string, type: string = '-'): string =>
+export const line2Camel = (str: string, type = '-'): string =>
   str.replace(selfEval(`/\\${type}(\\w)/g`), (all, letter) =>
     letter.toUpperCase()
   )
@@ -20,7 +20,7 @@ export const line2Camel = (str: string, type: string = '-'): string =>
  * @param  {String} type default `-`
  * @return {String}
  */
-export const camel2Line = (str: string, type: string = '-'): string =>
+export const camel2Line = (str: string, type = '-'): string =>
   str.replace(/([A-Z])/g, `${type}$1`).toLowerCase()
 
 /**

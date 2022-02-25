@@ -1,7 +1,7 @@
 /**
  * @description         get random int
- * @param  {Number} min 
- * @param  {Number} max 
+ * @param  {Number} min
+ * @param  {Number} max
  * @return {Number}
  */
 export const getRandomInt = (min: number, max: number): number => {
@@ -13,7 +13,7 @@ export const getRandomInt = (min: number, max: number): number => {
 /**
  * @description       generate Fibonacci array
  * @param  {String} n time
- * @return {Array}    
+ * @return {Array}
  */
 export const Fibonacci = (times: number): Array<number> => {
   if (times === 0 || times < 0) return [0]

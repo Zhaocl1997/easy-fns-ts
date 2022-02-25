@@ -133,10 +133,7 @@ export const countAge = (date: string | Date): number => {
  * @param  {Number} delay 延迟时间
  * @return {Function}
  */
-export const easyDebounce = (
-  cb: () => void,
-  delay: number = 500
-): (() => void) => {
+export const easyDebounce = (cb: () => void, delay = 500): (() => void) => {
   let timeoutID: NodeJS.Timeout
 
   function wrapper() {
@@ -164,12 +161,9 @@ export const easyDebounce = (
 // 节流
 // 规定在一个单位时间内，只能触发一次函数
 // 场景：拖拽，缩放，动画
-export const easyThrottle = (
-  cb: () => void,
-  delay: number = 500
-): (() => void) => {
+export const easyThrottle = (cb: () => void, delay = 500): (() => void) => {
   let timeoutID: NodeJS.Timeout
-  let lastExec: number = 0
+  let lastExec = 0
 
   function wrapper() {
     const self = this

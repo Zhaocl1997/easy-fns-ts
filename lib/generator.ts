@@ -12,7 +12,7 @@ import { getRandomElement, getRandomElements } from './array'
 /**
  * @description         generate random string
  * @param  {Number} len length, default is 32
- * @return {String}    
+ * @return {String}
  */
 export const genString = (len = 32): string =>
   getRandomElements(ALL_STRING.split(''), len).join('')
@@ -36,7 +36,7 @@ export const genPhone = (): string =>
 
 /**
  * @description     generate random email address
- * @return {String} 
+ * @return {String}
  */
 export const genEmail = (): string =>
   genString(8) + getRandomElement(EMAIL_SUFFIX)
@@ -103,9 +103,8 @@ export const genGUID2 = (): string => {
  * @return {String}
  */
 export const genUUID2 = (len: number, radix: number): string => {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split(
-    ''
-  )
+  const chars =
+    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
   const selfRadix = radix || chars.length
   const s = []
 

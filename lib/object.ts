@@ -1,3 +1,4 @@
+import { easyIsEmpty } from '.'
 import { isObject, isArray, isString } from './is'
 
 /**
@@ -5,7 +6,7 @@ import { isObject, isArray, isString } from './is'
  * @param  {Object | Array} target
  * @return {Object | Array}
  */
-export const easyDeepClone = (target: any): any => {
+export const easyDeepClone = <T = any>(target: T): T => {
   const dp = (t: any): any => {
     const tObj: Record<string, any> = t.constructor === Array ? [] : {}
 
@@ -56,8 +57,13 @@ export const easyDeepFreeze = (target: any): any => {
  * @param  {Object | Array} target
  * @return {Object | Array}
  */
-export const easyDeepMerge = (src: any = {}, target: any = {}): any => {
-  const origin = easyDeepClone(src)
+export const easyDeepMerge = <T = any>(
+  src: any,
+  target: any
+): T | undefined => {
+  if (easyIsEmpty(src) || easyIsEmpty(target)) return
+
+  const origin = easyDeepClone<typeof src>(src)
 
   Object.keys(target).forEach((key) => {
     origin[key] =
