@@ -1,6 +1,6 @@
 {
   "name": "easy-fns-ts",
-  "version": "1.0.26",
+  "version": "1.1.0",
   "license": "ISC",
   "author": "Zhaocl1997",
   "description": "Some useful daily used functions",
@@ -18,7 +18,7 @@
     "test": "jest",
     "test:cover": "jest --coverage",
     "prerelease": "npm run build:commonjs && npm run build:esm",
-    "release": "npm version patch && npm publish",
+    "release": "npm publish",
     "postrelease": "git push",
     "build:commonjs": "tsc --outDir ./dist/lib",
     "build:esm": "tsc -m es2020 --outDir ./dist/esm",
