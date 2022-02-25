@@ -16,12 +16,12 @@ export type TreeNodeItem<T, C extends string = 'children'> = T &
 /**
  * @description tree node config interface
  */
-export interface TreeNodeConfig<T, K = T> {
+export interface TreeNodeConfig<T, R = T, C extends string = 'children'> {
   id: string | number
   pid: string | number
   children: string
   order: string | number
-  format?: (node: T) => K
+  format?: (node: TreeNodeItem<T, C>) => R | undefined
 }
 
 export type NormalTreeConfig<T> = Partial<
@@ -61,7 +61,7 @@ const getConfig = <T>(config?: Partial<TreeNodeConfig<T>>) => ({
 const compare =
   <T>(order: string | number) =>
   (a: T, b: T) =>
-    a[order] - b[order]
+    Number(a[order]) - Number(b[order])
 
 /**
  * @description arr to tree
@@ -70,7 +70,7 @@ export const arrToTree = <T>(
   arr: T[],
   config?: NormalTreeConfig<T>
 ): TreeNodeItem<T>[] => {
-  const conf = getConfig(config)
+  const conf = getConfig<T>(config)
   const { id, pid, children } = conf
 
   const nodeMap = new Map<string, T>()
@@ -95,12 +95,12 @@ export const arrToTree = <T>(
 const treeNodeOrder = <T>(
   data: TreeNodeItem<T>,
   config?: OrderTreeConfig<T>
-): typeof data => {
-  const conf = getConfig(config)
+): TreeNodeItem<T> => {
+  const conf = getConfig<T>(config)
   const { order, children } = conf
 
   data[children] = data[children]
-    ? data[children].sort(compare(order))
+    ? data[children].sort(compare<T>(order))
     : data[children]
 
   const hasChild = Array.isArray(data[children]) && data[children].length > 0
@@ -121,11 +121,11 @@ const treeNodeOrder = <T>(
 /**
  * @description format tree core
  */
-const treeNodeFormat = <T, K = T>(
+const treeNodeFormat = <T, R = T>(
   data: TreeNodeItem<T>,
   config?: FormatTreeConfig<T>
-) => {
-  const conf = getConfig(config)
+): TreeNodeItem<R> => {
+  const conf = getConfig<T>(config)
   const { format, children } = conf
 
   const hasChild = Array.isArray(data[children]) && data[children].length > 0
@@ -134,11 +134,12 @@ const treeNodeFormat = <T, K = T>(
   return hasChild
     ? {
         ...formattedData,
-        [children]: data[children].map((i: T): K[] =>
-          treeNodeFormat<T, K>(i, {
-            children,
-            format,
-          })
+        [children]: data[children].map(
+          (i: T): R =>
+            treeNodeFormat<T, R>(i, {
+              children,
+              format,
+            })
         ),
       }
     : { ...formattedData }
@@ -150,15 +151,15 @@ const treeNodeFormat = <T, K = T>(
 export const orderTree = <T>(
   treeData: TreeNodeItem<T>[],
   opt?: OrderTreeConfig<T>
-): typeof treeData => treeData.map((node) => treeNodeOrder<T>(node, opt))
+): TreeNodeItem<T>[] => treeData.map((node) => treeNodeOrder<T>(node, opt))
 
 /**
  * @description format tree
  */
-export const formatTree = <T>(
+export const formatTree = <T, R>(
   treeData: TreeNodeItem<T>[],
   opt?: FormatTreeConfig<T>
-) => treeData.map((node) => treeNodeFormat<T>(node, opt))
+) => treeData.map((node) => treeNodeFormat<T, R>(node, opt))
 
 /**
  * @description flat tree to arr
@@ -167,7 +168,7 @@ export const treeToArr = <T>(
   tree: TreeNodeItem<T>[],
   config?: NormalTreeConfig<T>
 ): T[] => {
-  const conf = getConfig(config)
+  const conf = getConfig<T>(config)
   const { children } = conf
 
   const result: T[] = [...tree]
@@ -192,7 +193,7 @@ export const findNode = <T>(
   func: (node: T) => boolean,
   config?: NormalTreeConfig<T>
 ): T | null => {
-  const conf = getConfig(config)
+  const conf = getConfig<T>(config)
   const { children } = conf
 
   for (const node of tree) {
@@ -212,7 +213,7 @@ export const findPath = <T>(
   config?: NormalTreeConfig<T>
 ): T | T[] | null => {
   const treeData = easyDeepClone(tree)
-  const conf = getConfig(config)
+  const conf = getConfig<T>(config)
   const { children } = conf
 
   const result: T[] = []
