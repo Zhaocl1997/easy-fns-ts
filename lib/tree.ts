@@ -32,8 +32,8 @@ export type OrderTreeConfig<T> = Partial<
   Pick<TreeNodeConfig<T>, 'order' | 'children'>
 >
 
-export type FormatTreeConfig<T> = Partial<
-  Pick<TreeNodeConfig<T>, 'format' | 'children'>
+export type FormatTreeConfig<T, R = any> = Partial<
+  Pick<TreeNodeConfig<T, R>, 'format' | 'children'>
 >
 
 /**
@@ -50,7 +50,7 @@ export const DEFAULT_CONFIG: TreeNodeConfig<any> = {
 /**
  * @description get merged tree config
  */
-const getConfig = <T>(config?: Partial<TreeNodeConfig<T>>) => ({
+const getConfig = <T, R = any>(config?: Partial<TreeNodeConfig<T, R>>) => ({
   ...DEFAULT_CONFIG,
   ...config,
 })
@@ -123,9 +123,9 @@ const treeNodeOrder = <T>(
  */
 const treeNodeFormat = <T, R = T>(
   data: TreeNodeItem<T>,
-  config?: FormatTreeConfig<T>
+  config?: FormatTreeConfig<T, R>
 ): TreeNodeItem<R> => {
-  const conf = getConfig<T>(config)
+  const conf = getConfig<T, R>(config)
   const { format, children } = conf
 
   const hasChild = Array.isArray(data[children]) && data[children].length > 0
@@ -156,9 +156,9 @@ export const orderTree = <T>(
 /**
  * @description format tree
  */
-export const formatTree = <T, R>(
+export const formatTree = <T, R = T>(
   treeData: TreeNodeItem<T>[],
-  opt?: FormatTreeConfig<T>
+  opt?: FormatTreeConfig<T, R>
 ) => treeData.map((node) => treeNodeFormat<T, R>(node, opt))
 
 /**
