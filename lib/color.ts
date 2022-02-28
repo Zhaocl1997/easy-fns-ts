@@ -53,3 +53,17 @@ export const percentToRgb = (percent: number): string => {
 
   return `rgb(${r}, ${g}, 0)`
 }
+
+/**
+ * @description adjust a color by amount, positive means lighter, negative means darker
+ */
+export const adjustColor = (color: string, amount: number) =>
+  '#' +
+  color
+    .replace(/^#/, '')
+    .replace(/../g, (color) =>
+      (
+        '0' +
+        Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)
+      ).slice(-2)
+    )
