@@ -1,4 +1,4 @@
-import { easyIsEmpty } from '.'
+import { easyIsEmpty, isNull, isUndefined } from '.'
 import { isObject, isArray, isString } from './is'
 
 /**
@@ -175,4 +175,23 @@ export const easyDeepGet = (
       : path
     ).reduce((o: any, k: any) => (o || {})[k], obj) ?? defaultValue
   )
+}
+
+/**
+ * @description filter obj ''/null/undefined/{}/[] value
+ */
+export const easyFilterEmptyValue = (object: Record<string, any>) => {
+  Object.entries(object).forEach(([k, v]) => {
+    if (v && isObject(v)) easyFilterEmptyValue(v)
+    if (
+      (v && isObject(v) && !Object.keys(v).length) ||
+      isNull(v) ||
+      isUndefined(v) ||
+      v.length === 0
+    ) {
+      if (Array.isArray(object)) object.splice(k as unknown as number, 1)
+      else if (!(v instanceof Date)) delete object[k]
+    }
+  })
+  return object
 }

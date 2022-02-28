@@ -6,6 +6,7 @@ const {
   easyDeepReplaceKey,
   easyDeepGet,
   easyDeepSet,
+  easyFilterEmptyValue,
 } = require('../dist/lib')
 
 describe('object operation', () => {
@@ -207,5 +208,50 @@ describe('object operation', () => {
         age: 48,
       },
     })
+  })
+
+  test('deep filter falsy values in object', () => {
+    const target = [
+      {
+        field1: '',
+        field2: undefined,
+        field3: null,
+        field4: 0,
+        field5: false,
+        field6: {},
+        field7: [],
+      },
+      {
+        field8: {
+          field9: {
+            field10: {
+              test: '123',
+            },
+          },
+        },
+      },
+      {},
+      {
+        field11: {},
+        field12: [],
+      },
+    ]
+
+    expect(easyFilterEmptyValue(target)).toEqual([
+      {
+        field4: 0,
+        field5: false,
+      },
+      {
+        field8: {
+          field9: {
+            field10: {
+              test: '123',
+            },
+          },
+        },
+      },
+      {},
+    ])
   })
 })
