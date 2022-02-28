@@ -178,7 +178,7 @@ export const easyDeepGet = (
 }
 
 /**
- * @description filter obj ''/null/undefined/{}/[] value
+ * @description filter obj ''/null/undefined/{}/[] value, change origin object
  */
 export const easyFilterEmptyValue = (object: Record<string, any>) => {
   Object.entries(object).forEach(([k, v]) => {
@@ -192,6 +192,20 @@ export const easyFilterEmptyValue = (object: Record<string, any>) => {
       if (Array.isArray(object)) object.splice(k as unknown as number, 1)
       else if (!(v instanceof Date)) delete object[k]
     }
+  })
+  return object
+}
+
+/**
+ * @description transform "true"/"false" to true/false, change origin object
+ */
+export const easyTransformObjectStringBoolean = (
+  object: Record<string, any>
+) => {
+  Object.entries(object).forEach(([k, v]) => {
+    if (v && isObject(v)) easyTransformObjectStringBoolean(v)
+    if (v === 'true') object[k] = true
+    if (v === 'false') object[k] = false
   })
   return object
 }

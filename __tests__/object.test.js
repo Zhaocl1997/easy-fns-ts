@@ -7,6 +7,7 @@ const {
   easyDeepGet,
   easyDeepSet,
   easyFilterEmptyValue,
+  easyTransformObjectStringBoolean,
 } = require('../dist/lib')
 
 describe('object operation', () => {
@@ -252,6 +253,62 @@ describe('object operation', () => {
         },
       },
       {},
+    ])
+  })
+
+  test('transform string boolean to real boolean', () => {
+    const target = [
+      {
+        field1: '',
+        field2: undefined,
+        field3: null,
+        field4: 0,
+        field5: 'true',
+        field55: 'false',
+        field6: {},
+        field7: [],
+      },
+      {
+        field8: {
+          field9: {
+            field10: {
+              test: '123',
+            },
+          },
+        },
+      },
+      {},
+      {
+        field11: {},
+        field12: [],
+      },
+    ]
+
+    expect(easyTransformObjectStringBoolean(target)).toEqual([
+      {
+        field1: '',
+        field2: undefined,
+        field3: null,
+        field4: 0,
+        field5: true,
+        field55: false,
+        field6: {},
+        field7: [],
+      },
+      {
+        field8: {
+          field9: {
+            field10: {
+              test: '123',
+            },
+          },
+        },
+      },
+      {},
+      {
+        field11: {},
+        field12: [],
+      },
     ])
   })
 })
