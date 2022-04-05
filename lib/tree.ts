@@ -58,23 +58,22 @@ const getConfig = <T, R = any>(config?: Partial<TreeNodeConfig<T, R>>) => ({
 /**
  * @description compare order
  */
-const compare =
-  <T>(order: string | number) =>
-  (a: T, b: T) =>
-    Number(a[order]) - Number(b[order])
+const compare = <T>(order: string | number) => (a: T, b: T) =>
+  Number(a[order]) - Number(b[order])
 
 /**
  * @description arr to tree
  */
 export const arrToTree = <T>(
   arr: T[],
-  config?: NormalTreeConfig<T>
+  config?: NormalTreeConfig<T>,
+  extra?: { transformEmptyChildrenToNull: boolean }
 ): TreeNodeItem<T>[] => {
   const conf = getConfig<T>(config)
   const { id, pid, children } = conf
 
   const nodeMap = new Map<string, T>()
-  const result: TreeNodeItem<T>[] = []
+  let result: TreeNodeItem<T>[] = []
 
   for (const node of arr) {
     node[children] = node[children] || []
@@ -84,6 +83,18 @@ export const arrToTree = <T>(
   for (const node of arr) {
     const parent = nodeMap.get(node[pid])
     ;(parent ? parent[children] : result).push(node)
+  }
+
+  if (extra?.transformEmptyChildrenToNull) {
+    result = formatTree(result, {
+      format: (node) =>
+        node[children].length === 0
+          ? {
+              ...node,
+            [children]: null,
+            }
+          : node,
+    })
   }
 
   return result

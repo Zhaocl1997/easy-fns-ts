@@ -67,14 +67,14 @@ describe('is utils', () => {
   })
 
   test('check value is Client', () => {
-    expect(isClient()).toBeTruthy()
+    expect(isClient()).toBeFalsy()
   })
 
   test('check value is Server', () => {
-    expect(isServer()).toBeFalsy()
+    expect(isServer()).toBeTruthy()
   })
 
   test('check value is Window', () => {
-    expect(isWindow()).toBeTruthy()
+    expect(isWindow()).toBeFalsy()
   })
 })

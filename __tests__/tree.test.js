@@ -92,11 +92,69 @@ describe('tree utils', () => {
     },
   ]
 
+  const childrenNullTree = [
+    {
+      id: 1,
+      name: '1',
+      children: [
+        {
+          id: 2,
+          name: '1-1',
+          parentId: 1,
+          children: [
+            {
+              id: 3,
+              name: '1-1-1',
+              parentId: 2,
+              children: [
+                {
+                  id: 6,
+                  name: '1-1-1-1',
+                  parentId: 3,
+                  children: null,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 4,
+          name: '1-2',
+          parentId: 1,
+          children: [
+            {
+              id: 5,
+              name: '1-2-2',
+              parentId: 4,
+              children: null,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 7,
+      name: '2',
+      children: null,
+    },
+  ]
+
   const dcArr = easyDeepClone(arr)
+  const dcArr2 = easyDeepClone(arr)
   const dcTree = easyDeepClone(tree)
 
   test('array to tree', () => {
     expect(arrToTree(arr, { pid: 'parentId' })).toEqual(dcTree)
+  })
+
+  test('array to tree with null children', () => {
+    expect(
+      arrToTree(
+        dcArr2,
+        { pid: 'parentId' },
+        { transformEmptyChildrenToNull: true }
+      )
+    ).toEqual(childrenNullTree)
   })
 
   test('tree to array', () => {
