@@ -58,8 +58,10 @@ const getConfig = <T, R = any>(config?: Partial<TreeNodeConfig<T, R>>) => ({
 /**
  * @description compare order
  */
-const compare = <T>(order: string | number) => (a: T, b: T) =>
-  Number(a[order]) - Number(b[order])
+const compare =
+  <T>(order: string | number) =>
+  (a: T, b: T) =>
+    Number(a[order]) - Number(b[order])
 
 /**
  * @description arr to tree
@@ -91,7 +93,7 @@ export const arrToTree = <T>(
         node[children].length === 0
           ? {
               ...node,
-            [children]: null,
+              [children]: null,
             }
           : node,
     })
