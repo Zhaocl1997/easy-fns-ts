@@ -50,7 +50,7 @@ export const DEFAULT_CONFIG: TreeNodeConfig<any> = {
 /**
  * @description get merged tree config
  */
-function getConfig<T, R = any>(config?: Partial<TreeNodeConfig<T, R>>): TreeNodeConfig<T, R> {
+function getConfig<T, R = T>(config?: Partial<TreeNodeConfig<T, R>>): TreeNodeConfig<T, R> {
   return {
     ...DEFAULT_CONFIG,
     ...config,
@@ -82,7 +82,7 @@ export function arrToTree<T>(arr: T[], config?: NormalTreeConfig<T>, extra?: { t
 
   for (const node of arr) {
     const parent = nodeMap.get(node[pid])
-    ;(parent ? parent[children] : result).push(node)
+      ; (parent ? parent[children] : result).push(node)
   }
 
   if (extra?.transformEmptyChildrenToNull) {
@@ -116,7 +116,7 @@ function treeNodeOrder<T>(data: TreeNodeItem<T>, config?: OrderTreeConfig<T>): T
   return hasChild
     ? {
         ...data,
-        [children]: data[children].map((i: T) =>
+        [children]: data[children].map((i: TreeNodeItem<T>) =>
           treeNodeOrder(i, {
             order,
             children,
@@ -134,13 +134,13 @@ function treeNodeFormat<T, R = T>(data: TreeNodeItem<T>, config?: FormatTreeConf
   const { format, children } = conf
 
   const hasChild = Array.isArray(data[children]) && data[children].length > 0
-  const formattedData = format!(data) || {}
+  const formattedData = format!(data)!
 
   return hasChild
     ? {
         ...formattedData,
         [children]: data[children].map(
-          (i: T): R =>
+          (i: TreeNodeItem<T>): R =>
             treeNodeFormat<T, R>(i, {
               children,
               format,
@@ -162,6 +162,32 @@ export function orderTree<T>(treeData: TreeNodeItem<T>[], opt?: OrderTreeConfig<
  */
 export function formatTree<T, R = T>(treeData: TreeNodeItem<T>[], opt?: FormatTreeConfig<T, R>): TreeNodeItem<R>[] {
   return treeData.map(node => treeNodeFormat<T, R>(node, opt))
+}
+
+/**
+ * @description filter tree
+ */
+export function filterTree<T>(treeData: TreeNodeItem<T>[], callback: (item: T) => boolean, config?: FormatTreeConfig<T>): TreeNodeItem<T>[] {
+  const conf = getConfig<T>(config)
+
+  const { children } = conf
+
+  const getChildren = (result: TreeNodeItem<T>[], object: TreeNodeItem<T>): TreeNodeItem<T>[] => {
+    if (callback(object)) {
+      result.push(object)
+      return result
+    }
+
+    if (Array.isArray(object[children])) {
+      const _children = object[children].reduce(getChildren, [])
+      if (_children.length)
+        result.push({ ...object, [children]: _children })
+    }
+
+    return result
+  }
+
+  return treeData.reduce(getChildren, [])
 }
 
 /**

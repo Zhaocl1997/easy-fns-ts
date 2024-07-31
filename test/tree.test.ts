@@ -4,6 +4,7 @@ import type {
 } from '../src/tree'
 import {
   arrToTree,
+  filterTree,
   findNode,
   findPath,
   formatTree,
@@ -538,5 +539,87 @@ describe('tree utils', () => {
     ]
 
     expect(findPath(target, node => node.id === 6)).toEqual(result)
+  })
+
+  it('filter tree with condition', () => {
+    interface ITest {
+      id: number
+      name: string
+      parentId?: number
+    }
+
+    const target: TreeNodeItem<ITest>[] = [
+      {
+        id: 1,
+        name: '1',
+        children: [
+          {
+            id: 2,
+            name: '1-1',
+            parentId: 1,
+            children: [
+              {
+                id: 3,
+                name: '1-1-1',
+                parentId: 2,
+                children: [
+                  {
+                    id: 6,
+                    name: '1-1-1-1',
+                    parentId: 3,
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 4,
+            name: '1-2',
+            parentId: 1,
+            children: [
+              {
+                id: 5,
+                name: '1-2-2',
+                parentId: 4,
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 7,
+        name: '2',
+        children: [],
+      },
+    ]
+
+    const result: TreeNodeItem<ITest>[] = [
+      {
+        id: 1,
+        name: '1',
+        children: [
+          {
+            id: 4,
+            name: '1-2',
+            parentId: 1,
+            children:
+              [
+                {
+                  id: 5,
+                  name: '1-2-2',
+                  parentId: 4,
+                  children: [],
+                },
+              ]
+            ,
+          },
+        ],
+      },
+      { id: 7, name: '2', children: [] },
+    ]
+
+    expect(filterTree<ITest>(target, item => item.name.includes('2'))).toEqual(result)
   })
 })
