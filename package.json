@@ -47,12 +47,14 @@
     "dev": "unbuild --stub",
     "lint": "eslint 'src/**'",
     "lint:fix": "eslint 'src/**' --fix",
-    "prepublishOnly": "nr build",
     "release": "bumpp && npm publish",
     "start": "esno src/index.ts",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
-    "prepare": "simple-git-hooks"
+    "prepare": "simple-git-hooks",
+    "prepublishOnly": "pnpm lint && pnpm build",
+    "publish:dry": "pnpm publish --dry-run",
+    "publish:prod": "pnpm publish"
   },
   "devDependencies": {
     "@antfu/eslint-config": "4.14.1",
