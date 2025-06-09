@@ -1,7 +1,8 @@
-import { describe, expect, it } from 'vitest'
 import type {
   TreeNodeItem,
 } from '../src/tree'
+import { describe, expect, it } from 'vitest'
+import { easyDeepClone } from '../src/object'
 import {
   arrToTree,
   filterTree,
@@ -11,13 +12,13 @@ import {
   orderTree,
   treeToArr,
 } from '../src/tree'
-import { easyDeepClone } from '../src/object'
 
 describe('tree utils', () => {
   const arr = [
     {
       id: 1,
       name: '1',
+      parentId: 0,
     },
     {
       id: 2,
@@ -47,6 +48,7 @@ describe('tree utils', () => {
     {
       id: 7,
       name: '2',
+      parentId: 0,
     },
   ]
 
@@ -54,6 +56,7 @@ describe('tree utils', () => {
     {
       id: 1,
       name: '1',
+      parentId: 0,
       children: [
         {
           id: 2,
@@ -93,6 +96,7 @@ describe('tree utils', () => {
     {
       id: 7,
       name: '2',
+      parentId: 0,
       children: [],
     },
   ]
@@ -101,6 +105,7 @@ describe('tree utils', () => {
     {
       id: 1,
       name: '1',
+      parentId: 0,
       children: [
         {
           id: 2,
@@ -116,7 +121,7 @@ describe('tree utils', () => {
                   id: 6,
                   name: '1-1-1-1',
                   parentId: 3,
-                  children: null,
+                  children: [],
                 },
               ],
             },
@@ -131,7 +136,7 @@ describe('tree utils', () => {
               id: 5,
               name: '1-2-2',
               parentId: 4,
-              children: null,
+              children: [],
             },
           ],
         },
@@ -140,7 +145,8 @@ describe('tree utils', () => {
     {
       id: 7,
       name: '2',
-      children: null,
+      parentId: 0,
+      children: [],
     },
   ]
 
@@ -157,13 +163,12 @@ describe('tree utils', () => {
       arrToTree(
         dcArr2,
         { pid: 'parentId' },
-        { transformEmptyChildrenToNull: true },
       ),
     ).toEqual(childrenNullTree)
   })
 
   it('tree to array', () => {
-    expect(treeToArr(tree).sort((a, b) => a.id - b.id)).toEqual(dcArr)
+    expect(treeToArr(tree, { childrenField: 'children' }).sort((a, b) => +a.id - +b.id)).toEqual(dcArr)
   })
 
   it('find node in tree', () => {
@@ -171,6 +176,7 @@ describe('tree utils', () => {
       {
         id: 1,
         name: '1',
+        parentId: 0,
         children: [
           {
             id: 2,
@@ -221,7 +227,7 @@ describe('tree utils', () => {
       children: [{ id: 6, name: '1-1-1-1', parentId: 3, children: [] }],
     }
 
-    expect(findNode(target, node => node.name === '1-1-1')).toEqual(ret)
+    expect(findNode(target, node => node.name === '1-1-1', { childrenField: 'children' })).toEqual(ret)
   })
 
   it('format tree into specific structure', () => {
@@ -301,15 +307,12 @@ describe('tree utils', () => {
     ]
 
     expect(
-      formatTree(target, {
-        format: (node) => {
-          return {
-            id: node.id,
-            parentId: node.pid,
-          }
-        },
-        children: 'childrens',
-      }),
+      formatTree(target, (node) => {
+        return {
+          id: node.id,
+          parentId: node.pid,
+        }
+      }, { childrenField: 'childrens' }),
     ).toEqual(result)
   })
 
@@ -317,38 +320,44 @@ describe('tree utils', () => {
     const target = [
       {
         id: 0,
+        pid: 0,
+        meta: { order: 0 },
         childrens: [
           {
             id: 1,
             pid: 0,
-            customOrder: 2,
+            meta: { order: 2 },
             childrens: [
               {
                 id: 2,
                 pid: 1,
-                customOrder: 2,
+                meta: { order: 2 },
+                childrens: [],
               },
               {
                 id: 3,
                 pid: 1,
-                customOrder: 1,
+                meta: { order: 1 },
+                childrens: [],
               },
             ],
           },
           {
             id: 4,
             pid: 0,
-            customOrder: 1,
+            meta: { order: 1 },
             childrens: [
               {
                 id: 5,
                 pid: 4,
-                customOrder: 2,
+                meta: { order: 2 },
+                childrens: [],
               },
               {
                 id: 6,
                 pid: 4,
-                customOrder: 1,
+                meta: { order: 1 },
+                childrens: [],
               },
             ],
           },
@@ -359,38 +368,44 @@ describe('tree utils', () => {
     const result = [
       {
         id: 0,
+        pid: 0,
+        meta: { order: 0 },
         childrens: [
           {
             id: 4,
             pid: 0,
-            customOrder: 1,
+            meta: { order: 1 },
             childrens: [
               {
                 id: 6,
                 pid: 4,
-                customOrder: 1,
+                meta: { order: 1 },
+                childrens: [],
               },
               {
                 id: 5,
                 pid: 4,
-                customOrder: 2,
+                meta: { order: 2 },
+                childrens: [],
               },
             ],
           },
           {
             id: 1,
             pid: 0,
-            customOrder: 2,
+            meta: { order: 2 },
             childrens: [
               {
                 id: 3,
                 pid: 1,
-                customOrder: 1,
+                meta: { order: 1 },
+                childrens: [],
               },
               {
                 id: 2,
                 pid: 1,
-                customOrder: 2,
+                meta: { order: 2 },
+                childrens: [],
               },
             ],
           },
@@ -400,8 +415,8 @@ describe('tree utils', () => {
 
     expect(
       orderTree(target, {
-        order: 'customOrder',
-        children: 'childrens',
+        orderField: 'meta.order',
+        childrenField: 'childrens',
       }),
     ).toEqual(result)
   })
@@ -538,7 +553,7 @@ describe('tree utils', () => {
       },
     ]
 
-    expect(findPath(target, node => node.id === 6)).toEqual(result)
+    expect(findPath(target, node => node.id === 6, { childrenField: 'children' })).toEqual(result)
   })
 
   it('filter tree with condition', () => {
@@ -612,8 +627,7 @@ describe('tree utils', () => {
                   parentId: 4,
                   children: [],
                 },
-              ]
-            ,
+              ],
           },
         ],
       },
