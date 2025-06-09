@@ -8,6 +8,7 @@ import {
   easyDeepSet,
   easyFilterEmptyValue,
   easyFilterObj,
+  easyObjectGet,
   easyOmit,
   easyTransformObjectStringBoolean,
 } from '../src/object'
@@ -312,5 +313,20 @@ describe('object operation', () => {
         field12: [],
       },
     ])
+  })
+
+  it('get nested fields in object in an easy way', () => {
+    const obj = {
+      a: {
+        b: {
+          c: 'hello',
+        },
+      },
+    }
+
+    expect(easyObjectGet(obj, 'a.b.c')).toEqual('hello')
+    // @ts-expect-error ts support
+    expect(easyObjectGet(obj, 'a.b.d')).toEqual(undefined)
+    expect(easyObjectGet(obj, ['a', 'b', 'c'])).toEqual('hello')
   })
 })

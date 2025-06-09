@@ -106,7 +106,7 @@ export function easyFilterObj(obj: any, keys: Array<string> | string): any {
  * @param  {Array | string}  uselessKeys
  * @return {object}
  */
-export function easyOmit<T extends object, K extends string[] >(obj: T, uselessKeys: K): Pick<T, Exclude<keyof T, K[number]>> {
+export function easyOmit<T extends object, K extends string[]>(obj: T, uselessKeys: K): Pick<T, Exclude<keyof T, K[number]>> {
   return Object.keys(obj).reduce(
     (prev, key) =>
       uselessKeys.includes(key) ? { ...prev } : { ...prev, [key]: obj[key] },
@@ -211,4 +211,23 @@ export function easyTransformObjectStringBoolean(object: Record<string, any>): R
       object[k] = false
   })
   return object
+}
+
+/**
+ * @description easy get nested field in object, only support `a.b.c` / [a, b, c]
+ */
+export function easyObjectGet<T extends object, P extends DeepKeyOf<T> | DeepPathArray<T>>(obj: T, path: P, defaultValue = undefined): string | boolean | number | undefined | T {
+  const pathArray = Array.isArray(path)
+    ? path as string[]
+    : (path as string).split('.').filter(segment => segment !== '') as string[]
+
+  let result = obj
+  for (const segment of pathArray) {
+    if (result === null || result === undefined) {
+      return defaultValue
+    }
+    result = result[segment]
+  }
+
+  return result !== undefined ? result : defaultValue
 }
