@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/Zhaocl1997/easy-fns-ts.git"
   },
-  "bugs": "https://github.com/antfu/pkg-placeholder/issues",
+  "bugs": "https://github.com/Zhaocl1997/easy-fns-ts/issues",
   "keywords": [
     "typescript",
     "string",
@@ -46,7 +46,7 @@
     "build": "unbuild",
     "dev": "unbuild --stub",
     "lint": "eslint 'src/**'",
-    "lint:fix": "eslint 'src/**'",
+    "lint:fix": "eslint 'src/**' --fix",
     "prepublishOnly": "nr build",
     "release": "bumpp && npm publish",
     "start": "esno src/index.ts",
