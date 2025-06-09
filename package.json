@@ -1,6 +1,6 @@
 {
   "name": "easy-fns-ts",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "packageManager": "pnpm@10.12.1",
   "description": "Some useful daily used functions",
   "author": "Zhaocl1997",
