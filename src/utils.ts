@@ -1,5 +1,5 @@
-import { formatTime } from './time'
 import { isArray, isObject } from './is'
+import { formatTime } from './time'
 
 /**
  * @description         simplely checkout target value is empty or not

@@ -1,5 +1,5 @@
-import { trimSpaceAside } from './string'
 import { error } from './error'
+import { trimSpaceAside } from './string'
 
 /**
  * @description toggle class

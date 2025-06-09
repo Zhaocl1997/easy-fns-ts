@@ -1,3 +1,4 @@
+import { getRandomElement, getRandomElements } from './array'
 import {
   ALL_STRING,
   ALL_SYMBOL,
@@ -7,7 +8,6 @@ import {
   NUMBER_STRING,
   PHONE_PREFIX,
 } from './constant'
-import { getRandomElement, getRandomElements } from './array'
 
 /**
  * @description         generate random string
@@ -70,7 +70,7 @@ export function genGUID(): string {
  * @return {string}
  */
 export function genUUID(): string {
-  const s = []
+  const s: string[] = []
   const hexDigits = '0123456789abcdef'
   for (let i = 0; i < 36; i++) {
     s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
@@ -111,7 +111,7 @@ export function genUUID2(len: number, radix: number): string {
   const chars
     = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
   const selfRadix = radix || chars.length
-  const s = []
+  const s: string[] = []
 
   if (len) {
     // Compact form

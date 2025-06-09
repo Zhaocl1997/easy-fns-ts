@@ -20,13 +20,13 @@ export enum THEME_TYPE {
   INFO = 'info',
 }
 
-export type LogType =
-  | 'primary'
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'info'
-  | undefined
+export type LogType
+  = | 'primary'
+    | 'success'
+    | 'warning'
+    | 'danger'
+    | 'info'
+    | undefined
 
 export const PHONE_PREFIX: string[] = [
   '131',

@@ -76,7 +76,7 @@ describe('check value is valid', () => {
 
 describe('common utils', () => {
   it('calculate time string to age', () => {
-    expect(countAge('1997-12-22')).toBe(26)
-    expect(countAge(new Date('1997-12-22'))).toBe(26)
+    expect(countAge('1997-12-22')).toBe(27)
+    expect(countAge(new Date('1997-12-22'))).toBe(27)
   })
 })

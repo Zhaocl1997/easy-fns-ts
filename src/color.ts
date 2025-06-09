@@ -1,4 +1,5 @@
 import { error } from './error'
+
 /**
  * @description             hex to rgb
  * @param  {string} hex
@@ -62,11 +63,11 @@ export function percentToRgb(percent: string | number): string {
  */
 export function adjustColor(color: string, amount: number): string {
   return `#${
-  color
-    .replace(/^#/, '')
-    .replace(/../g, color =>
-      (
-        `0${
-        Math.min(255, Math.max(0, Number.parseInt(color, 16) + amount)).toString(16)}`
-      ).slice(-2))}`
+    color
+      .replace(/^#/, '')
+      .replace(/../g, color =>
+        (
+          `0${
+            Math.min(255, Math.max(0, Number.parseInt(color, 16) + amount)).toString(16)}`
+        ).slice(-2))}`
 }
