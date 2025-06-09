@@ -1,27 +1,27 @@
 /**
  * @description may be null
  */
-type Nullable<T> = T | null
+export type Nullable<T> = T | null
 
 /**
  * @description string / number
  */
-type StringOrNumber = string | number
+export type StringOrNumber = string | number
 
 /**
  * @description string / number / boolean
  */
-type BaseDataType = StringOrNumber | boolean
+export type BaseDataType = StringOrNumber | boolean
 
 /**
  * @description v-for index type
  */
-type IndexType = StringOrNumber | symbol
+export type IndexType = StringOrNumber | symbol
 
 /**
  * @description type usage for const
  */
-type ValueOf<T> = T[keyof T]
+export type ValueOf<T> = T[keyof T]
 
 /**
  * @description Used for components with `options` API.
@@ -31,7 +31,7 @@ type ValueOf<T> = T[keyof T]
  * Default: const options1: OptionDataItem[] = [{ value: 'foo', label: 'bar' }]
  * Custom:  const options2: OptionDataItem<'value1', 'label1'>[] = [{ value1: 'foo', label1: 'bar' }]
  */
-type OptionDataItem<
+export type OptionDataItem<
   E extends Record<string, any> = any,
   V extends string = 'value',
   L extends string = 'label',
@@ -51,14 +51,14 @@ type OptionDataItem<
  * KeysMatching<Thing, string>  =====>  'id' | 'test'
  *
  */
-type KeysMatching<T, V> = {
+export type KeysMatching<T, V> = {
   [K in keyof T]-?: T[K] extends V ? K : never
 }[keyof T]
 
 /**
  * @description deep keyof
  */
-type DeepKeyOf<T> = T extends object
+export type DeepKeyOf<T> = T extends object
   ? {
       [K in keyof T & (string | number)]: `${K}` | (T[K] extends object ? `${K}.${DeepKeyOf<T[K]>}` : never)
     }[keyof T & (string | number)]
@@ -67,7 +67,7 @@ type DeepKeyOf<T> = T extends object
 /**
  * @description support omit fields on T
  */
-type DeepKeyOfWithOmit<T, C extends string> = T extends object
+export type DeepKeyOfWithOmit<T, C extends string> = T extends object
   ? T extends Array<any>
     ? never
     : {
@@ -79,7 +79,7 @@ type DeepKeyOfWithOmit<T, C extends string> = T extends object
 /**
  * @description path array
  */
-type DeepPathArray<T>
+export type DeepPathArray<T>
   = T extends object
     ? {
         [K in keyof T]: [K] | [K, ...DeepPathArray<T[K]>]

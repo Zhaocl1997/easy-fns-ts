@@ -1,3 +1,4 @@
+import type { DeepKeyOf, DeepKeyOfWithOmit } from './types'
 import { easyDeepClone, easyObjectGet } from './object'
 
 /**

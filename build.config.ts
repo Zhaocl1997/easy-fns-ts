@@ -11,11 +11,5 @@ export default defineBuildConfig({
     esbuild: {
       treeShaking: true,
     },
-    dts: {
-      compilerOptions: {
-        // TODO 暂时避免ts错误导致的build失败
-        noEmit: true,
-      },
-    },
   },
 })

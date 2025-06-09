@@ -1,3 +1,4 @@
+import type { DeepKeyOf, DeepPathArray } from './types'
 import { isArray, isNull, isObject, isString, isUndefined } from './is'
 import { easyIsEmpty } from './utils'
 
