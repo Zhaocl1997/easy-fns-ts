@@ -1,7 +1,7 @@
 {
   "name": "easy-fns-ts",
   "version": "1.2.3",
-  "packageManager": "pnpm@9.5.0",
+  "packageManager": "pnpm@10.12.1",
   "description": "Some useful daily used functions",
   "author": "Zhaocl1997",
   "license": "ISC",
@@ -55,20 +55,20 @@
     "prepare": "simple-git-hooks"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.23.0",
-    "@antfu/ni": "^0.22.0",
-    "@antfu/utils": "^0.7.10",
-    "@types/node": "^20.14.11",
-    "bumpp": "^9.4.1",
-    "eslint": "^9.7.0",
-    "esno": "^4.7.0",
-    "lint-staged": "^15.2.7",
-    "pnpm": "^9.5.0",
-    "simple-git-hooks": "^2.11.1",
-    "typescript": "^5.5.3",
-    "unbuild": "^2.0.0",
-    "vite": "^5.3.4",
-    "vitest": "^2.0.3"
+    "@antfu/eslint-config": "4.14.1",
+    "@antfu/ni": "25.0.0",
+    "@antfu/utils": "9.2.0",
+    "@types/node": "22.15.30",
+    "bumpp": "10.1.1",
+    "eslint": "9.28.0",
+    "esno": "4.8.0",
+    "lint-staged": "16.1.0",
+    "pnpm": "9.5.0",
+    "simple-git-hooks": "2.13.0",
+    "typescript": "5.8.3",
+    "unbuild": "3.5.0",
+    "vite": "6.3.5",
+    "vitest": "3.2.3"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
