@@ -88,14 +88,30 @@ export type KeysMatching<T, V> = {
   [K in keyof T]-?: T[K] extends V ? K : never
 }[keyof T]
 
+// 限制最大递归深度为 5 层
+type MaxDepth = 5
+
+// 数字操作辅助类型
+type BuildTuple<L extends number, T extends any[] = []> = T['length'] extends L
+  ? T
+  : BuildTuple<L, [...T, any]>
+
+type Subtract<A extends number, B extends number>
+  = BuildTuple<A> extends [...BuildTuple<B>, ...infer R]
+    ? R['length']
+    : 0
+
 /**
- * @description deep keyof
+ * @description support omit fields on T
  */
-export type DeepKeyOf<T> = T extends object
-  ? {
-      [K in keyof T & (string | number)]: `${K}` | (T[K] extends object ? `${K}.${DeepKeyOf<T[K]>}` : never)
-    }[keyof T & (string | number)]
-  : never
+export type DeepKeyOf<T, Depth extends number = MaxDepth>
+  = Depth extends 0
+    ? never
+    : T extends Date | Fn | string | number | boolean | null | undefined
+      ? never
+      : T extends object
+        ? { [K in keyof T & (string | number)]: K | `${K}${T[K] extends object ? `.${DeepKeyOf<T[K], Subtract<Depth, 1>>}` : ''}` }[keyof T & (string | number)]
+        : never
 
 /**
  * @description support omit fields on T
