@@ -155,16 +155,20 @@ export function arrToTree<T extends object, R = T, C extends string = 'children'
   const nodeMap = new Map<string | number, TreeNodeItem<T, C>>()
   const result: TreeNodeItem<T, C>[] = []
 
+  function ensureChildren(node: T): TreeNodeItem<T, C> {
+    const typedNode = node as TreeNodeItem<T, C>
+    typedNode[childrenField] = typedNode[childrenField] || [] as TreeNodeItem<T, C>[C]
+    return typedNode
+  }
+
   for (const node of arr) {
-    const treeNode = node as TreeNodeItem<T, C>
-    treeNode[childrenField] = treeNode[childrenField] || [] as TreeNodeItem<T, C>[C]
+    const treeNode = ensureChildren(node)
     nodeMap.set(node[id], treeNode)
   }
 
   for (const node of arr) {
-    const treeNode = node as TreeNodeItem<T, C>
     const parent = nodeMap.get(node[pid])
-    ;(parent ? parent[childrenField] : result)?.push(treeNode)
+      ; (parent ? parent[childrenField] : result)?.push(node)
   }
 
   return result
