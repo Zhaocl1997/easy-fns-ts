@@ -101,6 +101,18 @@ type Subtract<A extends number, B extends number>
     ? R['length']
     : 0
 
+// 字符串路径是否以指定前缀开头
+type StartsWith<Path extends string, Prefix extends string>
+  = Path extends `${Prefix}${infer _}` ? true : false
+
+// 检查路径是否应该被排除
+type ShouldOmit<Path extends string, OmitPaths extends string[]>
+  = OmitPaths extends [infer First extends string, ...infer Rest extends string[]]
+    ? StartsWith<Path, First> extends true
+      ? true
+      : ShouldOmit<Path, Rest>
+    : false
+
 /**
  * @description support omit fields on T
  */
@@ -116,14 +128,22 @@ export type DeepKeyOf<T, Depth extends number = MaxDepth>
 /**
  * @description support omit fields on T
  */
-export type DeepKeyOfWithOmit<T, C extends string>
-  = T extends string | number | boolean | null | undefined | (() => void) ? never
-    : T extends Date | { _id: any } ? never
-      : T extends Array<infer U> ? DeepKeyOfWithOmit<U, C>
-        : T extends object ? {
-          [K in keyof Omit<T, C> & string]:
-      `${K}` | (DeepKeyOfWithOmit<T[K], C> extends never ? never : `${K}.${DeepKeyOfWithOmit<T[K], C>}`)
-        }[keyof Omit<T, C> & string] : never
+export type DeepKeyOfWithOmit<
+  T,
+  OmitPaths extends string[] = [],
+  Depth extends number = MaxDepth,
+> = Depth extends 0
+  ? never
+  : T extends Date | Fn | string | number | boolean | null | undefined
+    ? never
+    : T extends object
+      ? {
+          [K in keyof T & (string | number)]:
+          ShouldOmit<`${K}`, OmitPaths> extends true
+            ? never
+            : K | `${K}${T[K] extends object ? `.${DeepKeyOfWithOmit<T[K], OmitPaths, Subtract<Depth, 1>>}` : ''}`
+        }[keyof T & (string | number)]
+      : never
 
 /**
  * @description path array

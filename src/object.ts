@@ -1,4 +1,4 @@
-import type { DeepKeyOf, DeepPathArray } from './types'
+import type { DeepKeyOf } from './types'
 import { isArray, isNull, isObject, isString, isUndefined } from './is'
 import { easyIsEmpty } from './utils'
 
@@ -215,12 +215,10 @@ export function easyTransformObjectStringBoolean(object: Record<string, any>): R
 }
 
 /**
- * @description easy get nested field in object, only support `a.b.c` / [a, b, c]
+ * @description easy get nested field in object, only support `a.b.c`
  */
-export function easyObjectGet<T extends object, P extends DeepKeyOf<T> | DeepPathArray<T>>(obj: T, path: P, defaultValue = undefined): string | boolean | number | undefined | T {
-  const pathArray = Array.isArray(path)
-    ? path as string[]
-    : (path as string).split('.').filter(segment => segment !== '') as string[]
+export function easyObjectGet<T extends object, P extends DeepKeyOf<T>>(obj: T, path: P, defaultValue = undefined): string | boolean | number | undefined | T {
+  const pathArray = String(path).split('.').filter(segment => segment !== '') as string[]
 
   let result = obj
   for (const segment of pathArray) {

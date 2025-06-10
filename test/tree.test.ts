@@ -414,8 +414,7 @@ describe('tree utils', () => {
     ]
 
     expect(
-      orderTree(target, {
-        orderField: 'meta.order',
+      orderTree(target, (a, b) => a.meta.order - b.meta.order, {
         childrenField: 'childrens',
       }),
     ).toEqual(result)

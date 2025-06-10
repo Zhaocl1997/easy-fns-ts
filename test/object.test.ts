@@ -327,6 +327,5 @@ describe('object operation', () => {
     expect(easyObjectGet(obj, 'a.b.c')).toEqual('hello')
     // @ts-expect-error ts support
     expect(easyObjectGet(obj, 'a.b.d')).toEqual(undefined)
-    expect(easyObjectGet(obj, ['a', 'b', 'c'])).toEqual('hello')
   })
 })
