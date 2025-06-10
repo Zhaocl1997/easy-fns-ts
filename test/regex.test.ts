@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import { regexTest } from '../src/regex'
-
 import { genEmail, genGUID, genMAC, genPhone, genUUID } from '../src/generator'
+
+import { regexTest } from '../src/regex'
 
 describe('regexTest utils', () => {
   it('url regex test', () => {
