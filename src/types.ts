@@ -24,6 +24,39 @@ export type IndexType = StringOrNumber | symbol
 export type ValueOf<T> = T[keyof T]
 
 /**
+ * @description function type
+ */
+export interface Fn<T = any, R = T> {
+  (...arg: T[]): R
+}
+
+/**
+ * @description promise function type
+ */
+export type PromiseFn<T = any> = (args?: T) => Promise<void>
+
+/**
+ * @description is primitive type
+ */
+export type IsPrimitive<T>
+  = T extends string | number | boolean | null | undefined | symbol | bigint ? true : false
+
+/**
+ * @description is function
+ */
+export type IsFunction<T> = T extends Fn ? true : false
+
+/**
+ * @description no distrubute
+ */
+export type NoDistribute<T> = [T] extends [unknown] ? T : never
+
+/**
+ * @description recordable
+ */
+export type Recordable<T = any> = Record<string, T>
+
+/**
  * @description Used for components with `options` API.
  * Default value field is `value` and label field is `label`
  *
