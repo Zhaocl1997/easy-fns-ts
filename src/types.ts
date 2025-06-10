@@ -67,14 +67,14 @@ export type DeepKeyOf<T> = T extends object
 /**
  * @description support omit fields on T
  */
-export type DeepKeyOfWithOmit<T, C extends string> = T extends object
-  ? T extends Array<any>
-    ? never
-    : {
-        [K in keyof Omit<T, C> & string]:
-    `${K}` | `${K}.${DeepKeyOfWithOmit<T[K], C>}`
-      }[keyof Omit<T, C> & string]
-  : never
+export type DeepKeyOfWithOmit<T, C extends string>
+  = T extends string | number | boolean | null | undefined | (() => void) ? never
+    : T extends Date | { _id: any } ? never
+      : T extends Array<infer U> ? DeepKeyOfWithOmit<U, C>
+        : T extends object ? {
+          [K in keyof Omit<T, C> & string]:
+      `${K}` | (DeepKeyOfWithOmit<T[K], C> extends never ? never : `${K}.${DeepKeyOfWithOmit<T[K], C>}`)
+        }[keyof Omit<T, C> & string] : never
 
 /**
  * @description path array
