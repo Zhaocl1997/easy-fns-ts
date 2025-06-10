@@ -151,24 +151,21 @@ export function filterTree<T extends object, C extends string = 'children'>(tree
 export function arrToTree<T extends object, R = T, C extends string = 'children'>(arr: T[], config?: Partial<TreeNodeConfig<T, R, C>>): TreeNodeItem<T, C>[] {
   const conf = getConfig<T, R, C>(config)
   const { id, pid, childrenField } = conf
+  const clonedArr = easyDeepClone(arr)
 
   const nodeMap = new Map<string | number, TreeNodeItem<T, C>>()
   const result: TreeNodeItem<T, C>[] = []
 
-  function ensureChildren(node: T): TreeNodeItem<T, C> {
-    const typedNode = node as TreeNodeItem<T, C>
-    typedNode[childrenField] = typedNode[childrenField] || [] as TreeNodeItem<T, C>[C]
-    return typedNode
-  }
-
-  for (const node of arr) {
-    const treeNode = ensureChildren(node)
+  for (const node of clonedArr) {
+    const treeNode = node as TreeNodeItem<T, C>
+    treeNode[childrenField] = treeNode[childrenField] || [] as TreeNodeItem<T, C>[C]
     nodeMap.set(node[id], treeNode)
   }
 
-  for (const node of arr) {
+  for (const node of clonedArr) {
+    const treeNode = node as TreeNodeItem<T, C>
     const parent = nodeMap.get(node[pid])
-      ; (parent ? parent[childrenField] : result)?.push(node)
+    ;(parent ? parent[childrenField] : result)?.push(treeNode)
   }
 
   return result
