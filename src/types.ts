@@ -154,3 +154,19 @@ export type DeepPathArray<T>
         [K in keyof T]: [K] | [K, ...DeepPathArray<T[K]>]
       }[keyof T]
     : []
+
+/**
+ * @description convert one path of object to `nested.path` like
+ */
+export type ConvertNestedProperties<T, K extends keyof T> = T extends { [P in K]: infer N }
+  ? Omit<T, K> & {
+    [P in keyof N as `${string & K}.${string & P}`]?: N[P]
+  }
+  : T
+
+/**
+ * @description nullable record
+ */
+export type NullableRecord<T> = {
+  [K in keyof T]: T[K] extends object ? NullableRecord<T[K]> : T[K] | null;
+}
